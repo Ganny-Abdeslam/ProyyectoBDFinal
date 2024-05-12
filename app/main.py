@@ -1,7 +1,9 @@
 from database.conexion import conexionBD
 from database.inicializacionTablas import generacionTablas
+from View.principalScreen import PrincipalScreen
 
-if __name__ == "__main__":
+
+def generarBD():
     conexion = conexionBD().conectar()
 
     generacionTablas().generarCliente(conexion)
@@ -36,3 +38,9 @@ if __name__ == "__main__":
     
     if 'conexion' in locals() and conexion.open:
         conexion.close()
+
+if __name__ == "__main__":
+
+    #generarBD()
+
+    PrincipalScreen().generarPS()
