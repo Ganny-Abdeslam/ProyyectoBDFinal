@@ -1,0 +1,5 @@
+.vs/
+
+docker/data
+proyectoBD/
+__pycache__/
