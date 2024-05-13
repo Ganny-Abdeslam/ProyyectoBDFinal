@@ -10,7 +10,9 @@ services:
       MYSQL_DATABASE: proyecto
       MYSQL_USER: admin
       MYSQL_PASSWORD: pass
+      MYSQL_INIT_CONNECT: 'SET NAMES utf8mb4'
     ports:
       - "9999:3306"
     volumes:
       - ./data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf

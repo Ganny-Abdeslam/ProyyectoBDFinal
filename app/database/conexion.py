@@ -16,7 +16,8 @@ class conexionBD():
             user=usuario,
             password=contraseña,
             database=base_de_datos,
-            port=puerto
+            port=puerto,
+            charset='utf8mb4'
         )
 
         return conexion

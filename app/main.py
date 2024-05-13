@@ -1,7 +1,8 @@
 from database.conexion import conexionBD
 from database.inicializacionTablas import generacionTablas
 from View.principalScreen import PrincipalScreen
-
+from database.generarCiudades import Countries, Departamentos, Ciudades
+from model.Cliente import Cliente
 
 def generarBD():
     conexion = conexionBD().conectar()
@@ -39,8 +40,18 @@ def generarBD():
     if 'conexion' in locals() and conexion.open:
         conexion.close()
 
+def generarNormalizacion():
+    if Countries().count_countries() > 0:
+        return
+    
+    Countries().insert_countries()
+    Departamentos().insert_states()
+    Ciudades().insert_ciudades()
+
+
 if __name__ == "__main__":
 
-    #generarBD()
+    generarBD()
+    generarNormalizacion()
 
-    PrincipalScreen().generarPS()
+    #PrincipalScreen().generarPS()

@@ -206,10 +206,10 @@ class generacionTablas():
                 sql = """
                 CREATE TABLE departamento (
                     id_departamento INT NOT NULL,
-                    nombre          VARCHAR(255) NOT NULL,
-                    id_pais         INT NOT NULL,
+                    nombre VARCHAR(255) NOT NULL,
+                    id_pais INT NOT NULL,
                     PRIMARY KEY (id_departamento)
-                );
+                ) CHARACTER SET utf8mb4;
                 """
                 cursor.execute(sql)
 
