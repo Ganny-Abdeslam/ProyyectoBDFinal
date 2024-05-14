@@ -4,6 +4,9 @@ from View.principalScreen import PrincipalScreen
 from database.generarCiudades import Countries, Departamentos, Ciudades
 from model.Cliente import Cliente
 
+import sys
+from PyQt6.QtWidgets import QApplication
+
 def generarBD():
     conexion = conexionBD().conectar()
 
@@ -48,10 +51,11 @@ def generarNormalizacion():
     Departamentos().insert_states()
     Ciudades().insert_ciudades()
 
-
 if __name__ == "__main__":
 
     generarBD()
     generarNormalizacion()
-
-    #PrincipalScreen().generarPS()
+    app = QApplication(sys.argv)
+    PrincipalScreen()
+    PrincipalScreen().show()
+    sys.exit(app.exec())
