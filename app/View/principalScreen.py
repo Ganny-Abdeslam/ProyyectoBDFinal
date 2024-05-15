@@ -17,7 +17,6 @@ class PrincipalScreen(QWidget):
         # Agregar la imagen del logo
         logo_label = QLabel(self)
         pixmap = QPixmap("app/View/images/logo.png")
-        #pixmap = QPixmap("C:/Users/DAVID/Desktop/Universidad 2024-1/Bases de datos l/src/ProyyectoBDFinal/app/View/images/logo.png")
         pixmap = pixmap.scaledToWidth(200)
         logo_label.setPixmap(pixmap)
         layout.addWidget(logo_label, alignment=Qt.AlignmentFlag.AlignHCenter)  # Centrar el logo horizontalmente
@@ -99,7 +98,6 @@ class PrincipalScreen(QWidget):
             self.despacho_pedido_window.show()
             self.hide()
         
-
 class UsuarioWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__()
@@ -211,10 +209,28 @@ class UsuarioWindow(QWidget):
         layout_usuario.addWidget(self.nombre_jefe_label, 15, 0)
         layout_usuario.addWidget(self.nombre_jefe_edit, 15, 1)
 
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_usuario.addWidget(boton_volver, 16, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_usuario.addWidget(boton_volver, 16, 0, 1, 1)
+        layout_usuario.addWidget(boton_actualizar, 16, 1, 1, 1)
+        layout_usuario.addWidget(boton_eliminar, 16, 2, 1, 1)
+        layout_usuario.addWidget(boton_agregar, 16, 3, 1, 1)
 
         self.setLayout(layout_usuario)
         self.parent = parent
@@ -228,7 +244,6 @@ class UsuarioWindow(QWidget):
 
         # Conectar la señal currentIndexChanged del ComboBox
         self.tipo_usuario_combobox.currentIndexChanged.connect(self.actualizar_campos)
-
 
     def actualizar_campos(self, index):
         if index == 0:
@@ -257,15 +272,6 @@ class UsuarioWindow(QWidget):
             self.placa_edit.hide()
             self.nombre_jefe_label.show()
             self.nombre_jefe_edit.show()
-
-        elif index == 3:
-            # Si el usuario selecciona "Vendedor", mostrar campo de Comisión
-            self.comision_label.show()
-            self.comision_edit.show()
-            self.placa_label.hide()
-            self.placa_edit.hide()
-            self.nombre_jefe_label.hide()
-            self.nombre_jefe_edit.hide()
 
     def volver_a_principal(self):
         self.close()
@@ -318,10 +324,28 @@ class ClienteWindow(QWidget):
         self.ciudad_cliente_combobox.addItems(["Seleccione Ciudad", "Ciudad A", "Ciudad B", "Ciudad C"])  # Ejemplo de ciudades
         layout_cliente.addWidget(self.ciudad_cliente_combobox, 5, 1)
 
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_cliente.addWidget(boton_volver, 6, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_cliente.addWidget(boton_volver, 6, 0, 1, 1)
+        layout_cliente.addWidget(boton_actualizar, 6, 1, 1, 1)
+        layout_cliente.addWidget(boton_eliminar, 6, 2, 1, 1)
+        layout_cliente.addWidget(boton_agregar, 6, 3, 1, 1)
 
         self.setLayout(layout_cliente)
         self.parent = parent
@@ -377,14 +401,31 @@ class SucursalWindow(QWidget):
         self.ciudad_sucursal_combobox.addItems(["Seleccione Ciudad", "Ciudad A", "Ciudad B", "Ciudad C"])  # Ejemplo de ciudades
         layout_sucursal.addWidget(self.ciudad_sucursal_combobox, 5, 1)
 
+        #Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_sucursal.addWidget(boton_volver, 6, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_sucursal.addWidget(boton_volver, 6, 0, 1, 1)
+        layout_sucursal.addWidget(boton_actualizar, 6, 1, 1, 1)
+        layout_sucursal.addWidget(boton_eliminar, 6, 2, 1, 1)
+        layout_sucursal.addWidget(boton_agregar, 6, 3, 1, 1)
 
         self.setLayout(layout_sucursal)
         self.parent = parent
-
     def volver_a_principal(self):
         self.close()
         self.parent.show()
@@ -429,10 +470,28 @@ class ProductoWindow(QWidget):
         self.cantidad_producto_edit.setStyleSheet("background-color: white;")
         layout_producto.addWidget(self.cantidad_producto_edit, 4, 1)
 
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_producto.addWidget(boton_volver, 5, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_producto.addWidget(boton_volver, 6, 0, 1, 1)
+        layout_producto.addWidget(boton_actualizar, 6, 1, 1, 1)
+        layout_producto.addWidget(boton_eliminar, 6, 2, 1, 1)
+        layout_producto.addWidget(boton_agregar, 6, 3, 1, 1)
 
         self.setLayout(layout_producto)
         self.parent = parent
@@ -481,10 +540,28 @@ class FacturaWindow(QWidget):
         self.cedula_vendedor_edit.setStyleSheet("background-color: white;")
         layout_factura.addWidget(self.cedula_vendedor_edit, 4, 1)
 
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_factura.addWidget(boton_volver, 5, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_factura.addWidget(boton_volver, 6, 0, 1, 1)
+        layout_factura.addWidget(boton_actualizar, 6, 1, 1, 1)
+        layout_factura.addWidget(boton_eliminar, 6, 2, 1, 1)
+        layout_factura.addWidget(boton_agregar, 6, 3, 1, 1)
 
         self.setLayout(layout_factura)
         self.parent = parent
@@ -533,10 +610,28 @@ class ProveedorWindow(QWidget):
         self.telefono_proveedor_edit.setStyleSheet("background-color: white;")
         layout_proveedor.addWidget(self.telefono_proveedor_edit, 4, 1)
 
+        #Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_proveedor.addWidget(boton_volver, 5, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_proveedor.addWidget(boton_volver, 6, 0, 1, 1)
+        layout_proveedor.addWidget(boton_actualizar, 6, 1, 1, 1)
+        layout_proveedor.addWidget(boton_eliminar, 6, 2, 1, 1)
+        layout_proveedor.addWidget(boton_agregar, 6, 3, 1, 1)
 
         self.setLayout(layout_proveedor)
         self.parent = parent
@@ -579,10 +674,28 @@ class MaterialWindow(QWidget):
         self.cantidad_material_edit.setStyleSheet("background-color: white;")
         layout_material.addWidget(self.cantidad_material_edit, 3, 1)
 
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_material.addWidget(boton_volver, 4, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_material.addWidget(boton_volver, 6, 0, 1, 1)
+        layout_material.addWidget(boton_actualizar, 6, 1, 1, 1)
+        layout_material.addWidget(boton_eliminar, 6, 2, 1, 1)
+        layout_material.addWidget(boton_agregar, 6, 3, 1, 1)
 
         self.setLayout(layout_material)
         self.parent = parent
@@ -626,10 +739,28 @@ class CotizacionWindow(QWidget):
         self.cedula_vendedor_edit.setStyleSheet("background-color: white;")
         layout_cotizacion.addWidget(self.cedula_vendedor_edit, 3, 1)
 
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_cotizacion.addWidget(boton_volver, 4, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_cotizacion.addWidget(boton_volver, 6, 0, 1, 1)
+        layout_cotizacion.addWidget(boton_actualizar, 6, 1, 1, 1)
+        layout_cotizacion.addWidget(boton_eliminar, 6, 2, 1, 1)
+        layout_cotizacion.addWidget(boton_agregar, 6, 3, 1, 1)
 
         self.setLayout(layout_cotizacion)
         self.parent = parent
@@ -678,10 +809,28 @@ class EntregaPedidoWindow(QWidget):
         self.cedula_distribuidor_edit.setStyleSheet("background-color: white;")
         layout_entrega_pedido.addWidget(self.cedula_distribuidor_edit, 4, 1)
 
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_entrega_pedido.addWidget(boton_volver, 5, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_entrega_pedido.addWidget(boton_volver, 6, 0, 1, 1)
+        layout_entrega_pedido.addWidget(boton_actualizar, 6, 1, 1, 1)
+        layout_entrega_pedido.addWidget(boton_eliminar, 6, 2, 1, 1)
+        layout_entrega_pedido.addWidget(boton_agregar, 6, 3, 1, 1)
 
         self.setLayout(layout_entrega_pedido)
         self.parent = parent
@@ -724,10 +873,28 @@ class DespachoPedidoWindow(QWidget):
         self.estado_pedido_edit.setStyleSheet("background-color: white;")
         layout_despacho_pedido.addWidget(self.estado_pedido_edit, 3, 1)
 
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
-        boton_volver.clicked.connect(self.volver_a_principal)
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
-        layout_despacho_pedido.addWidget(boton_volver, 4, 0, 1, 2)
+        boton_volver.setFixedSize(200, 40)
+        boton_volver.clicked.connect(self.volver_a_principal)
+
+        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_actualizar.setFixedSize(120, 40)
+
+        boton_eliminar = QPushButton("Eliminar")
+        boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar.setFixedSize(120, 40)
+
+        boton_agregar = QPushButton("Agregar")
+        boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_agregar.setFixedSize(120, 40)
+
+        layout_despacho_pedido.addWidget(boton_volver, 6, 0, 1, 1)
+        layout_despacho_pedido.addWidget(boton_actualizar, 6, 1, 1, 1)
+        layout_despacho_pedido.addWidget(boton_eliminar, 6, 2, 1, 1)
+        layout_despacho_pedido.addWidget(boton_agregar, 6, 3, 1, 1)
 
         self.setLayout(layout_despacho_pedido)
         self.parent = parent
