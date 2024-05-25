@@ -11,8 +11,13 @@ class Sucursal:
     def agregarSucursal(self):
         conexion = conexionBD().conectar()
 
-        consulta = "INSERT INTO sucursal (direccion, telefono, email, jefe_cedula, id_ciudad) VALUES (%s, %s, %s, %s, %s)"
-        datos = (self.direccion, self.telefono, self.email, self.jefeCedula, self.idCiudad)
+        consulta_count = "SELECT COUNT(*) FROM sucursal"
+        cursor.execute(consulta_count)
+        count_result = cursor.fetchone()
+        count_sucursales = count_result[0] if count_result else 0
+
+        consulta = "INSERT INTO sucursal (id_sucursal, direccion, telefono, email, jefe_cedula, id_ciudad) VALUES (%s, %s, %s, %s, %s, %s)"
+        datos = (self.count_sucursales, self.direccion, self.telefono, self.email, self.jefeCedula, self.idCiudad)
 
         cursor = conexion.cursor()
         cursor.execute(consulta, datos)
