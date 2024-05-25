@@ -1,6 +1,8 @@
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QComboBox, QCalendarWidget
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QComboBox, QCalendarWidget, QMessageBox, QDateEdit
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QDate
+from controller.usuario import UsuarioController
+from controller.sucursal import SucursalController
 
 class PrincipalScreen(QWidget):
     def __init__(self):
@@ -140,9 +142,10 @@ class UsuarioWindow(QWidget):
 
         # Campo de entrada para la fecha de nacimiento
         layout_usuario.addWidget(QLabel("Fecha de Nacimiento:"), 5, 0)
-        self.fecha_nacimiento_calendar = QCalendarWidget()
-        self.fecha_nacimiento_calendar.setStyleSheet("background-color: white; color:black;")
-        layout_usuario.addWidget(self.fecha_nacimiento_calendar, 5, 1)
+        self.fecha_nacimiento_edit = QDateEdit()
+        self.fecha_nacimiento_edit.setCalendarPopup(True)
+        self.fecha_nacimiento_edit.setStyleSheet("background-color: white; color:black;")
+        layout_usuario.addWidget(self.fecha_nacimiento_edit, 5, 1)
 
         # Campo de entrada para el teléfono
         layout_usuario.addWidget(QLabel("Teléfono:"), 6, 0)
@@ -226,6 +229,7 @@ class UsuarioWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_usuario)
 
         layout_usuario.addWidget(boton_volver, 16, 0, 1, 1)
         layout_usuario.addWidget(boton_actualizar, 16, 1, 1, 1)
@@ -272,6 +276,10 @@ class UsuarioWindow(QWidget):
             self.placa_edit.hide()
             self.nombre_jefe_label.show()
             self.nombre_jefe_edit.show()
+
+    def agregar_usuario(self):
+        usuarioAgregar = UsuarioController() 
+        usuarioAgregar.validacionGuardarUsuario(self)
 
     def volver_a_principal(self):
         self.close()
@@ -418,6 +426,7 @@ class SucursalWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_sucursal)
 
         layout_sucursal.addWidget(boton_volver, 6, 0, 1, 1)
         layout_sucursal.addWidget(boton_actualizar, 6, 1, 1, 1)
@@ -426,6 +435,12 @@ class SucursalWindow(QWidget):
 
         self.setLayout(layout_sucursal)
         self.parent = parent
+
+    def agregar_sucursal(self):
+        sucursalAgregar = SucursalController() 
+        sucursalAgregar.validacionGuardarSucursal(self)
+
+
     def volver_a_principal(self):
         self.close()
         self.parent.show()
