@@ -634,7 +634,7 @@ class generacionTablas():
                     direccion    VARCHAR(255) NOT NULL,
                     telefono     VARCHAR(255) NOT NULL,
                     email        VARCHAR(255) NOT NULL,
-                    jefe_cedula  INT NOT NULL,
+                    jefe_cedula  INT NULL,
                     id_ciudad    INT NOT NULL,
                     PRIMARY KEY (id_sucursal)
                 );
@@ -943,12 +943,12 @@ class generacionTablas():
                 """
                 cursor.execute(sql)
            
-                sql = """
-                ALTER TABLE sucursal
-                    ADD CONSTRAINT fk_sucursal_usuario FOREIGN KEY (jefe_cedula)
-                        REFERENCES usuario (cedula);
-                """
-                cursor.execute(sql)
+                # sql = """
+                # ALTER TABLE sucursal
+                #     ADD CONSTRAINT fk_sucursal_usuario FOREIGN KEY (jefe_cedula)
+                #         REFERENCES usuario (cedula);
+                # """
+                # cursor.execute(sql)
            
                 sql = """
                 ALTER TABLE usuario
