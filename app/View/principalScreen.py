@@ -280,6 +280,7 @@ class UsuarioWindow(QWidget):
     def agregar_usuario(self):
         usuarioAgregar = UsuarioController() 
         usuarioAgregar.validacionGuardarUsuario(self)
+        QMessageBox.information(self, "Éxito", "Usuario agregado exitosamente.")
 
     def volver_a_principal(self):
         self.close()
