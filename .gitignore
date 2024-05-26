@@ -2,7 +2,6 @@
 
 *.json
 *.pdf
-*.jrxml
 
 docker/data
 proyectoBD/
