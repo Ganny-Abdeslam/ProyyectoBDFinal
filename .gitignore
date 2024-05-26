@@ -1,5 +1,9 @@
 .vs/
 
+*.json
+*.pdf
+*.jrxml
+
 docker/data
 proyectoBD/
 __pycache__/
