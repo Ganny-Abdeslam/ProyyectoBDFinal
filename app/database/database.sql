@@ -8,6 +8,14 @@ INSERT INTO usuario (cedula, primer_nombre, segundo_nombre, primer_apellido, seg
 ('45678901', 'Ana', 'Isabel', 'Fernández', 'González', CAST('1992-03-18' AS DATE), '444-555-6666', 'Carretera 4', 'ana.fernandez@example.com', 3200.00, 'afernandez', 'password456', 2),
 ('56789012', 'Luis', 'Alberto', 'Ramírez', 'Sánchez', CAST('1987-11-22' AS DATE), '555-666-7777', 'Pasaje 5', 'luis.ramirez@example.com', 2700.00, 'lramirez', 'password567', 4)
 
+--Vendedor
+INSERT INTO vendedor (comision_venta, cedula) VALUES
+(1000.00, 12345678),
+(1500.50, 23456789),
+(800.25, 34567890),
+(1200.75, 45678901),
+(900.30, 56789012);
+
 -- Sucursal
 INSERT INTO sucursal (id_sucursal, direccion, telefono, email, jefe_cedula, id_ciudad) VALUES 
 (1, 'Calle Comercio 123', '111-222-3333', 'sucursal1@example.com', 0, 4),
