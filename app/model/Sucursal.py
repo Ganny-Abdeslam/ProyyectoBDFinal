@@ -43,6 +43,7 @@ class Sucursal:
         conexion.close()
 
         print("Se agregó correctamente la sucursal")
+    
 
 class BDSucursal:
 
@@ -90,3 +91,19 @@ class BDSucursal:
         sucursal = Sucursal(direccion, telefono, email, jefeCedula, idCiudad)
 
         return sucursal
+    
+    def eliminarSucursal(self, idSucursal):
+        conexion = conexionBD().conectar()
+
+        cursor = conexion.cursor()
+
+        consulta = "DELETE FROM sucursal WHERE id_sucursal = %s"
+        datos = (idSucursal)
+
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+
+        conexion.close()
+
+        print("Se eliminó correctamente la sucursal")

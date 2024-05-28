@@ -1,4 +1,4 @@
-from model.Sucursal import Sucursal
+from model.Sucursal import Sucursal, BDSucursal
 
 class SucursalController:
 
@@ -16,5 +16,15 @@ class SucursalController:
             self.inicio(SucursalWindow.direccion_sucursal_edit.text(), SucursalWindow.telefono_sucursal_edit.text(), SucursalWindow.email_sucursal_edit.text(), SucursalWindow.cedula_jefe_sucursal_edit.text(), "1")
             print("Campos llenos")
             self.sucursal.agregarSucursal()
+            return True
+        
+    def validacionEliminar(self, SucursalWindow):
+        if (SucursalWindow.id_sucursal_eliminar_edit.text() == ""):
+            print("Campos vacios")
+            return False
+        else:
+            print("Campos llenos")
+            eliminar = BDSucursal()
+            eliminar.eliminarSucursal(SucursalWindow.id_sucursal_eliminar_edit.text())
             return True
             
