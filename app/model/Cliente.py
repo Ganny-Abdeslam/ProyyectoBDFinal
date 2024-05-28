@@ -64,3 +64,19 @@ class BDCliente:
         cliente = Cliente(id_cliente, nombre, direccion, telefono, email, ciudad_id)
         
         return cliente
+
+    def eliminarCliente(self, id_cliente):
+        conexion = conexionBD().conectar()
+
+        cursor = conexion.cursor()
+
+        consulta = "DELETE FROM cliente WHERE id_cliente = %s"
+        datos = (id_cliente)
+
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+
+        conexion.close()
+
+        print("Se eliminó correctamente el cliente")
