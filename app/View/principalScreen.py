@@ -342,7 +342,7 @@ class ClienteWindow(QWidget):
         self.ciudad_cliente_combobox = QComboBox()
         self.ciudad_cliente_combobox.setStyleSheet("background-color: white;")
         ciudades = BDCiudad()
-        self.ciudad_cliente_combobox.addItems(ciudades)
+        self.ciudad_cliente_combobox.addItems(ciudades.listarCiudades())
         layout_cliente.addWidget(self.ciudad_cliente_combobox, 4, 1)
 
         # Botones
