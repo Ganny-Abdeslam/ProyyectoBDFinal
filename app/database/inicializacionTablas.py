@@ -382,7 +382,7 @@ class generacionTablas():
             with conexion.cursor() as cursor:
                 sql = """
                 CREATE TABLE factura (
-                    id_factura      INT NOT NULL,
+                    id_factura      INT NOT NULL AUTO_INCREMENT,
                     fecha           DATE NOT NULL,
                     total           DECIMAL(10, 2),
                     id_cliente      INT NOT NULL,
@@ -455,7 +455,7 @@ class generacionTablas():
             with conexion.cursor() as cursor:
                 sql = """
                 CREATE TABLE materia_prima (
-                    id_materia_prima INT NOT NULL,
+                    id_materia_prima INT NOT NULL AUTO_INCREMENT,
                     nombre           VARCHAR(255) NOT NULL,
                     descripcion      VARCHAR(255) NOT NULL,
                     cantidad         INT,
@@ -559,7 +559,7 @@ class generacionTablas():
             with conexion.cursor() as cursor:
                 sql = """
                 CREATE TABLE proveedor (
-                    id_proveedor INT NOT NULL,
+                    id_proveedor INT NOT NULL AUTO_INCREMENT,
                     nombre       VARCHAR(255) NOT NULL,
                     direccion    VARCHAR(255) NOT NULL,
                     email        VARCHAR(255) NOT NULL,

@@ -1,17 +1,17 @@
 from database.conexion import conexionBD
 
 class Factura:
-    def __init__(self, fecha, total, idCliente, vendedorCedula) -> None:
+    def __init__(self, fecha, total, id_cliente, vendedorCedula) -> None:
         self.fecha = fecha
         self.total = total
-        self.idCliente = idCliente
+        self.id_cliente = id_cliente
         self.vendedorCedula = vendedorCedula
 
     def agregarFactura(self):
         conexion = conexionBD().conectar()
 
         consulta = "INSERT INTO factura (fecha, total, id_cliente, vendedor_cedula) VALUES (%s, %s, %s, %s)"
-        datos = (self.fecha, self.total, self.idCliente, self.vendedorCedula)
+        datos = (self.fecha, self.total, self.id_cliente, self.vendedorCedula)
 
         cursor = conexion.cursor()
         cursor.execute(consulta, datos)
@@ -36,19 +36,19 @@ class Factura:
         facturas = []
 
         for resultado in resultados:
-            idFactura, fecha, total, idCliente, vendedorCedula = resultado
-            factura = Factura(fecha, total, idCliente, vendedorCedula)
+            id_factura, fecha, total, id_cliente, vendedorCedula = resultado
+            factura = Factura(id_factura, fecha, total, id_cliente, vendedorCedula)
             facturas.append(factura)
 
         return facturas
 
-    def buscarFacturaPorId(self, idFactura):
+    def buscarFacturaPorId(self, id_factura):
         conexion = conexionBD().conectar()
 
         consulta = "SELECT * FROM factura WHERE id_factura = %s"
 
         cursor = conexion.cursor()
-        cursor.execute(consulta, (idFactura,))
+        cursor.execute(consulta, (id_factura,))
 
         resultado = cursor.fetchone()
 
@@ -57,7 +57,7 @@ class Factura:
         if not resultado:
             return None
 
-        idFactura, fecha, total, idCliente, vendedorCedula = resultado
-        factura = Factura(fecha, total, idCliente, vendedorCedula)
+        id_factura, fecha, total, id_cliente, vendedorCedula = resultado
+        factura = Factura(fecha, total, id_cliente, vendedorCedula)
 
         return factura
