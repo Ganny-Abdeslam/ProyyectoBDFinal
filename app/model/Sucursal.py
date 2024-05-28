@@ -8,6 +8,19 @@ class Sucursal:
         self.jefeCedula = jefeCedula
         self.idCiudad = idCiudad
 
+    def addId(self, id_sucursal):
+        self.id_sucursal = id_sucursal
+
+    def to_dict(self):
+        return {
+            'id_sucursal': self.id_sucursal,
+            'direccion': self.direccion,
+            'telefono': self.telefono,
+            'email': self.email,
+            'jefeCedula': self.jefeCedula,
+            'idCiudad': self.idCiudad
+        }
+
     def agregarSucursal(self):
         conexion = conexionBD().conectar()
 
@@ -31,10 +44,15 @@ class Sucursal:
 
         print("Se agregó correctamente la sucursal")
 
+class BDSucursal:
+
+    def __init__(self) -> None:
+        pass
+
     def listarSucursales(self):
         conexion = conexionBD().conectar()
 
-        consulta = "SELECT * FROM sucursal"
+        consulta = "SELECT id_sucursal, direccion, telefono, email, jefe_cedula, id_ciudad FROM sucursal"
 
         cursor = conexion.cursor()
         cursor.execute(consulta)
@@ -46,9 +64,10 @@ class Sucursal:
         sucursales = []
 
         for resultado in resultados:
-            idSucursal, direccion, telefono, email, jefeCedula, idCiudad = resultado
+            id_sucursal, direccion, telefono, email, jefeCedula, idCiudad = resultado
             sucursal = Sucursal(direccion, telefono, email, jefeCedula, idCiudad)
-            sucursales.append(sucursal)
+            sucursal.addId(id_sucursal)
+            sucursales.append(sucursal.to_dict())
 
         return sucursales
 
