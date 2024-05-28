@@ -1,6 +1,9 @@
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QComboBox, QCalendarWidget, QMessageBox, QDateEdit
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QComboBox, QCalendarWidget, QMessageBox, QDateEdit, QFileDialog
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt, QDate
+from Reportes.SucursalReporte import SucursalReport
+import webbrowser
+import os
 
 from controller.usuario import UsuarioController
 from controller.sucursal import SucursalController
@@ -11,6 +14,7 @@ from controller.proveedor import ProveedorController
 from controller.materia_prima import MateriaPrimaController
 from controller.cotizacion import CotizacionController
 from controller.pedido_entrega import PedidoEntregaController
+from controller.pedido_despachar import PedidoDespacharController
 
 
 class PrincipalScreen(QWidget):
@@ -438,21 +442,42 @@ class SucursalWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_sucursal)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
         layout_sucursal.addWidget(boton_volver, 5, 0, 1, 1)
         layout_sucursal.addWidget(boton_actualizar, 5, 1, 1, 1)
         layout_sucursal.addWidget(boton_eliminar, 5, 2, 1, 1)
         layout_sucursal.addWidget(boton_agregar, 5, 3, 1, 1)
+        layout_sucursal.addWidget(boton_generar_reporte, 6, 0, 1, 1) 
 
         self.setLayout(layout_sucursal)
         self.parent = parent
 
     def agregar_sucursal(self):
+
         sucursalAgregar = SucursalController() 
         condicion = sucursalAgregar.validacionGuardarSucursal(self)
         if (condicion):
             QMessageBox.information(self, "Éxito", "Sucursal agregada exitosamente.")
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
+
+    def generar_reporte(self):
+        sucursalReporte = SucursalReport()
+        sucursalReporte.reporte()
+
+        # Obtener la ruta del directorio de trabajo actual
+        directorio_actual = os.getcwd()
+        
+        # Concatenar la ruta del archivo PDF
+        pdf_nombre = "ReporteSucursal.pdf"
+        pdf_path = os.path.join(directorio_actual + "/app/Reportes/", pdf_nombre)
+        
+        # Abrir el PDF en el navegador
+        webbrowser.open_new(pdf_path)   
 
     def volver_a_principal(self):
         self.close()
@@ -917,7 +942,8 @@ class DespachoPedidoWindow(QWidget):
 
         # Campo de entrada para la fecha de despacho
         layout_despacho_pedido.addWidget(QLabel("Fecha de Despacho:"), 2, 0)
-        self.fecha_despacho_calendar = QCalendarWidget()
+        self.fecha_despacho_calendar = QDateEdit()
+        self.fecha_despacho_calendar.setCalendarPopup(True)
         self.fecha_despacho_calendar.setStyleSheet("background-color: white; color:black;")
         layout_despacho_pedido.addWidget(self.fecha_despacho_calendar, 2, 1)
 
@@ -944,6 +970,7 @@ class DespachoPedidoWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_despacho_pedido)
 
         layout_despacho_pedido.addWidget(boton_volver, 6, 0, 1, 1)
         layout_despacho_pedido.addWidget(boton_actualizar, 6, 1, 1, 1)
@@ -952,6 +979,14 @@ class DespachoPedidoWindow(QWidget):
 
         self.setLayout(layout_despacho_pedido)
         self.parent = parent
+
+    def agregar_despacho_pedido(self):
+        despachoPedidoAgregar = PedidoDespacharController()
+        condicion = despachoPedidoAgregar.validacionGuardarPedidoDespachar(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Despacho de Pedido agregado exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()

@@ -1,5 +1,4 @@
 from model.Cliente import Cliente
-from PyQt6.QtCore import Qt
 
 class ClienteController:
     

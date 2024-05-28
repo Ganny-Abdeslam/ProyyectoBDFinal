@@ -1,5 +1,4 @@
 from model.Usuario import Usuario 
-from PyQt6.QtCore import Qt
 
 class UsuarioController:
 
@@ -17,3 +16,4 @@ class UsuarioController:
             self.inicio(UsuarioWindow.cedula_edit.text(), UsuarioWindow.primer_nombre_edit.text(), UsuarioWindow.segundo_nombre_edit.text(), UsuarioWindow.primer_apellido_edit.text(), UsuarioWindow.segundo_apellido_edit.text(), UsuarioWindow.fecha_nacimiento_edit.date().toString("yyyy-MM-dd"), UsuarioWindow.telefono_edit.text(), UsuarioWindow.direccion_edit.text(), UsuarioWindow.email_edit.text(), UsuarioWindow.salario_edit.text(), UsuarioWindow.username_edit.text(), UsuarioWindow.password_edit.text())
             print("Campos llenos")
             self.usuario.agregarUsuario()
+            return True
