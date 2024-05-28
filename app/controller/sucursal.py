@@ -13,7 +13,7 @@ class SucursalController:
             print("Campos vacios")
             return False
         else:
-            self.inicio(SucursalWindow.direccion_sucursal_edit.text(), SucursalWindow.telefono_sucursal_edit.text(), SucursalWindow.email_sucursal_edit.text(), SucursalWindow.cedula_jefe_sucursal_edit.text(), "1")
+            self.inicio(SucursalWindow.direccion_sucursal_edit.text(), SucursalWindow.telefono_sucursal_edit.text(), SucursalWindow.email_sucursal_edit.text(), SucursalWindow.cedula_jefe_sucursal_edit.text(), SucursalWindow.ciudad_sucursal_combobox.currentIndex())
             print("Campos llenos")
             self.sucursal.agregarSucursal()
             return True
