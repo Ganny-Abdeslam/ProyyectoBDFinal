@@ -21,6 +21,10 @@ class Producto:
 
         print(f"Se agregó correctamente el producto: {self.nombre}")
 
+class BDProducto:
+    def __init__(self) -> None:
+        pass
+
     def listarProductos(self):
         conexion = conexionBD().conectar()
 
@@ -61,3 +65,19 @@ class Producto:
         producto = Producto(nombre, descripcion, precio, cantidad)
 
         return producto
+    
+    def eliminarProducto(self, id_producto):
+        conexion = conexionBD().conectar()
+
+        cursor = conexion.cursor()
+
+        consulta = "DELETE FROM producto WHERE id_producto = %s"
+        datos = (id_producto)
+
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+
+        conexion.close()
+
+        print("Se eliminó correctamente el producto")

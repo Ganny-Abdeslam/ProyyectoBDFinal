@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QComboBox, QCalendarWidget, QMessageBox, QDateEdit, QFileDialog
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QComboBox, QCalendarWidget, QMessageBox, QDateEdit, QFileDialog, QDialog
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt, QDate
 from Reportes.SucursalReporte import SucursalReport
@@ -436,6 +436,7 @@ class SucursalWindow(QWidget):
         boton_eliminar = QPushButton("Eliminar")
         boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_eliminar.setFixedSize(120, 40)
+        boton_eliminar.clicked.connect(self.mostrar_popup_eliminar)
 
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
@@ -478,6 +479,38 @@ class SucursalWindow(QWidget):
         
         # Abrir el PDF en el navegador
         webbrowser.open_new(pdf_path)   
+
+    def mostrar_popup_eliminar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Eliminar Sucursal")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese el ID de la sucursal a eliminar:")
+        layout.addWidget(label)
+
+        self.id_sucursal_eliminar_edit = QLineEdit()
+        self.id_sucursal_eliminar_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_sucursal_eliminar_edit)
+
+        boton_eliminar_confirmar = QPushButton("Eliminar")
+        boton_eliminar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar_confirmar.setFixedSize(120, 40)
+        boton_eliminar_confirmar.clicked.connect(self.eliminar_sucursal)
+
+        layout.addWidget(boton_eliminar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec()
+
+    def eliminar_sucursal(self):
+        sucursalEliminar = SucursalController()
+        condicion = sucursalEliminar.validacionEliminar(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Sucursal eliminada exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
+       
 
     def volver_a_principal(self):
         self.close()
@@ -530,6 +563,7 @@ class ProductoWindow(QWidget):
         boton_eliminar = QPushButton("Eliminar")
         boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_eliminar.setFixedSize(120, 40)
+        boton_eliminar.clicked.connect(self.mostrar_popup_eliminar)
 
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
@@ -549,6 +583,41 @@ class ProductoWindow(QWidget):
         condicion = productoAgregar.validacionGuardarProducto(self)
         if (condicion):
             QMessageBox.information(self, "Éxito", "Producto agregado exitosamente.")
+            self.nombre_producto_edit.setText("")
+            self.descripcion_producto_edit.setText("")
+            self.precio_producto_edit.setText("")
+            self.cantidad_producto_edit.setText("")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
+
+    def mostrar_popup_eliminar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Eliminar Producto")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese el ID del producto a eliminar:")
+        layout.addWidget(label)
+
+        self.id_producto_eliminar_edit = QLineEdit()
+        self.id_producto_eliminar_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_producto_eliminar_edit)
+
+        boton_eliminar_confirmar = QPushButton("Eliminar")
+        boton_eliminar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar_confirmar.setFixedSize(120, 40)
+        boton_eliminar_confirmar.clicked.connect(self.eliminar_producto)
+
+        layout.addWidget(boton_eliminar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec()
+
+    def eliminar_producto(self):
+        productoEliminar = ProductoController()
+        condicion = productoEliminar.validacionEliminar(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Producto eliminado exitosamente.")
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
