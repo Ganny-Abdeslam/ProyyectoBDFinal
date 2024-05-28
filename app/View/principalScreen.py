@@ -341,7 +341,8 @@ class ClienteWindow(QWidget):
         layout_cliente.addWidget(QLabel("Ciudad del Cliente:"), 4, 0)
         self.ciudad_cliente_combobox = QComboBox()
         self.ciudad_cliente_combobox.setStyleSheet("background-color: white;")
-        self.ciudad_cliente_combobox.addItems(["Seleccione Ciudad", "Ciudad A", "Ciudad B", "Ciudad C"])  # Ejemplo de ciudades
+        ciudades = BDCiudad()
+        self.ciudad_cliente_combobox.addItems(ciudades)
         layout_cliente.addWidget(self.ciudad_cliente_combobox, 4, 1)
 
         # Botones
