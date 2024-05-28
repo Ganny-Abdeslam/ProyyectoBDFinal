@@ -12,8 +12,11 @@
 	<title>
 		<band height="86" splitType="Stretch">
 			<textField>
-				<reportElement x="69" y="56" width="341" height="30" uuid="c83e42c3-b786-482b-9aed-a05bc2883e1c"/>
-				<textFieldExpression><![CDATA["Esto es una prueba"+$F{titulo}]]></textFieldExpression>
+				<reportElement x="110" y="0" width="360" height="70" isPrintWhenDetailOverflows="true" uuid="c83e42c3-b786-482b-9aed-a05bc2883e1c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
