@@ -4,10 +4,10 @@ class BDCiudad:
     def __init__(self) -> None:
         pass
 
-    def listarCiudad(self):
+    def listarCiudades(self):
         conexion = conexionBD().conectar()
 
-        consulta = "SELECT id_ciudad FROM ciudad"
+        consulta = "SELECT nombre FROM ciudad"  # Modificar la consulta para seleccionar los nombres de las ciudades
 
         cursor = conexion.cursor()
         cursor.execute(consulta)
@@ -19,7 +19,7 @@ class BDCiudad:
         ciudades = []
 
         for resultado in resultados:
-            id_ciudad = resultado
-            ciudades.append(id_ciudad)
+            nombre_ciudad = resultado[0]  # El nombre de la ciudad está en la posición 0 de la tupla
+            ciudades.append(nombre_ciudad)
 
         return ciudades

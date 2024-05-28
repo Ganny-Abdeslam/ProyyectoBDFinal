@@ -15,6 +15,7 @@ from controller.materia_prima import MateriaPrimaController
 from controller.cotizacion import CotizacionController
 from controller.pedido_entrega import PedidoEntregaController
 from controller.pedido_despachar import PedidoDespacharController
+from model.Ciudad import BDCiudad
 
 
 class PrincipalScreen(QWidget):
@@ -448,7 +449,8 @@ class SucursalWindow(QWidget):
         layout_sucursal.addWidget(QLabel("Ciudad de la Sucursal:"), 4, 0)
         self.ciudad_sucursal_combobox = QComboBox()
         self.ciudad_sucursal_combobox.setStyleSheet("background-color: white;")
-        self.ciudad_sucursal_combobox.addItems(["Seleccione Ciudad", "Ciudad A", "Ciudad B", "Ciudad C"])  # Ejemplo de ciudades
+        ciudades = BDCiudad()
+        self.ciudad_sucursal_combobox.addItems(ciudades.listarCiudades())  # Ejemplo de ciudades
         layout_sucursal.addWidget(self.ciudad_sucursal_combobox, 4, 1)
 
         # Botones

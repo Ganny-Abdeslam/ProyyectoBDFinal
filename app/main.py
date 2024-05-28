@@ -54,11 +54,9 @@ def generarNormalizacion():
 
 if __name__ == "__main__":
 
-    # generarBD()
-    # generarNormalizacion()
-    # app = QApplication(sys.argv)
-    # PrincipalScreen()
-    # PrincipalScreen().show()
-    # sys.exit(app.exec())
-    p = UsuarioReport()
-    p.reporte()
+    generarBD()
+    generarNormalizacion()
+    app = QApplication(sys.argv)
+    PrincipalScreen()
+    PrincipalScreen().show()
+    sys.exit(app.exec())
