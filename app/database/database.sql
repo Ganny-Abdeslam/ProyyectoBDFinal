@@ -70,3 +70,11 @@ INSERT INTO proveedor (nombre, direccion, email, telefono) VALUES
 ('Eléctricos del Sur', 'Boulevard Energía 789, Sector Eléctrico', 'info@electricossur.com', '345-678-9012'),
 ('Maderas del Norte', 'Carretera Madera 101, Parque Industrial', 'soporte@maderasnorte.com', '456-789-0123'),
 ('Aluminio Premium', 'Avenida Metalurgia 202, Distrito Central', 'contacto@aluminiopremium.com', '567-890-1234')
+
+-- DetalleFactura
+INSERT INTO factura_detalle (id_factura, id_producto, cantidad, precio) VALUES 
+(1, 1, 3, 239.97),   
+(2, 2, 2, 259.98), 
+(3, 3, 1, 999.99), 
+(4, 4, 4, 2799.96), 
+(5, 5, 5, 1499.95)
