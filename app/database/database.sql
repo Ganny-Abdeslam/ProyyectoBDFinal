@@ -6,15 +6,15 @@ INSERT INTO usuario (cedula, primer_nombre, segundo_nombre, primer_apellido, seg
 ('23456789', 'María', 'Elena', 'López', 'Rodríguez', CAST('1990-08-25' AS DATE), '222-333-4444', 'Avenida 2', 'maria.lopez@example.com', 3000.00, 'mlopez', 'password234', 3),
 ('34567890', 'Juan', 'José', 'Martínez', 'García', CAST('1988-12-05' AS DATE), '333-444-5555', 'Boulevard 3', 'juan.martinez@example.com', 2800.00, 'jmartinez', 'password345', 1),
 ('45678901', 'Ana', 'Isabel', 'Fernández', 'González', CAST('1992-03-18' AS DATE), '444-555-6666', 'Carretera 4', 'ana.fernandez@example.com', 3200.00, 'afernandez', 'password456', 2),
-('56789012', 'Luis', 'Alberto', 'Ramírez', 'Sánchez', CAST('1987-11-22' AS DATE), '555-666-7777', 'Pasaje 5', 'luis.ramirez@example.com', 2700.00, 'lramirez', 'password567', 4)
+('56789012', 'Luis', 'Alberto', 'Ramírez', 'Sánchez', CAST('1987-11-22' AS DATE), '555-666-7777', 'Pasaje 5', 'luis.ramirez@example.com', 2700.00, 'lramirez', 'password567', 4);
 
 --Vendedor
 INSERT INTO vendedor (comision_venta, cedula) VALUES
-(1000.00, 12345678),
-(1500.50, 23456789),
-(800.25, 34567890),
-(1200.75, 45678901),
-(900.30, 56789012);
+(1000.00, '12345678'),
+(1500.50, '23456789'),
+(800.25, '34567890'),
+(1200.75, '45678901'),
+(900.30, '56789012');
 
 -- Sucursal
 INSERT INTO sucursal (id_sucursal, direccion, telefono, email, jefe_cedula, id_ciudad) VALUES 
@@ -30,7 +30,7 @@ INSERT INTO cliente (nombre, direccion, telefono, email, ciudad_id_ciudad) VALUE
 ('María López', 'Avenida Secundaria 456', '222-333-4444', 'maria.lopez@example.com', 7),
 ('Carlos García', 'Boulevard Terciario 789', '333-444-5555', 'carlos.garcia@example.com', 5),
 ('Ana Martínez', 'Carretera Cuarta 101', '444-555-6666', 'ana.martinez@example.com', 9),
-('Luis Rodríguez', 'Pasaje Quinto 202', '555-666-7777', 'luis.rodriguez@example.com', 2)
+('Luis Rodríguez', 'Pasaje Quinto 202', '555-666-7777', 'luis.rodriguez@example.com', 2);
 
 -- Cotizacion
 INSERT INTO cotizacion (fecha, total, vendedor_cedula) VALUES 
