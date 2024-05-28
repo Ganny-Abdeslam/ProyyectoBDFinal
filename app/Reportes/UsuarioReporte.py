@@ -1,34 +1,34 @@
 import os
 import json
 from pyreportjasper import PyReportJasper
-from model.Sucursal import BDSucursal
+from model.Usuario import BDUsuario
 
-class SucursalReport:
+class UsuarioReport:
 
     def __init__(self) -> None:
-        self.sucursal = BDSucursal()
+        self.usuario = BDUsuario()
 
     def reporte(self):
         try:
             script_dir = os.path.dirname(os.path.abspath(__file__))
 
-            lista_sucursales = self.sucursal.listarSucursales()
+            lista_usuarios = self.usuario.listarUsuarios()
 
             data = {
-                'sucursales': lista_sucursales
+                'usuarios': lista_usuarios
             }
             
-            json_file_path = os.path.join(script_dir, 'Sucursal.json')
+            json_file_path = os.path.join(script_dir, 'Usuario.json')
             with open(json_file_path, "w", encoding="utf-8") as file:
                 json.dump(data, file, ensure_ascii=False, indent=4)
 
-            input_file = os.path.join(script_dir, 'Sucursal.jrxml')
-            out_file = os.path.join(script_dir, 'ReporteSucursal')
+            input_file = os.path.join(script_dir, 'Usuario.jrxml')
+            out_file = os.path.join(script_dir, 'ReporteUsuario')
 
             conn = {
                 'driver': 'json',
                 'data_file': json_file_path,
-                'json_query': 'sucursales'
+                'json_query': 'usuarios'
             }
 
             pyreportjasper = PyReportJasper()

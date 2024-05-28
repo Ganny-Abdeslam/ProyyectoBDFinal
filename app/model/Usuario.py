@@ -16,6 +16,23 @@ class Usuario:
         self.password = password
         self.idSucursal = idSucursal
 
+    def to_dict(self):
+        return {
+            'cedula': self.cedula,
+            'primerNombre': self.primerNombre,
+            'segundoNombre': self.segundoNombre,
+            'primerApellido': self.primerApellido,
+            'segundoApellido': self.segundoApellido,
+            'fechaNacimiento': self.fechaNacimiento.isoformat(),
+            'telefono': self.telefono,
+            'direccion': self.direccion,
+            'email': self.email,
+            'salario': float(self.salario),
+            'username': self.username,
+            'password': self.password,
+            'idSucursal': self.idSucursal
+        }
+
     def agregarUsuario(self):
         conexion = conexionBD().conectar()
 
@@ -29,6 +46,11 @@ class Usuario:
         conexion.close()
 
         print("Se agregó correctamente el usuario")
+
+class BDUsuario:
+
+    def __init__(self) -> None:
+        pass
 
     def listarUsuarios(self):
         conexion = conexionBD().conectar()
@@ -47,7 +69,7 @@ class Usuario:
         for resultado in resultados:
             cedula, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaNacimiento, telefono, direccion, email, salario, username, password, idSucursal = resultado
             usuario = Usuario(cedula, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaNacimiento, telefono, direccion, email, salario, username, password, idSucursal)
-            usuarios.append(usuario)
+            usuarios.append(usuario.to_dict())
 
         return usuarios
 
