@@ -8,6 +8,14 @@ INSERT INTO usuario (cedula, primer_nombre, segundo_nombre, primer_apellido, seg
 ('45678901', 'Ana', 'Isabel', 'Fernández', 'González', CAST('1992-03-18' AS DATE), '444-555-6666', 'Carretera 4', 'ana.fernandez@example.com', 3200.00, 'afernandez', 'password456', 2),
 ('56789012', 'Luis', 'Alberto', 'Ramírez', 'Sánchez', CAST('1987-11-22' AS DATE), '555-666-7777', 'Pasaje 5', 'luis.ramirez@example.com', 2700.00, 'lramirez', 'password567', 4)
 
+--Vendedor
+INSERT INTO vendedor (comision_venta, cedula) VALUES
+(1000.00, 12345678),
+(1500.50, 23456789),
+(800.25, 34567890),
+(1200.75, 45678901),
+(900.30, 56789012);
+
 -- Sucursal
 INSERT INTO sucursal (id_sucursal, direccion, telefono, email, jefe_cedula, id_ciudad) VALUES 
 (1, 'Calle Comercio 123', '111-222-3333', 'sucursal1@example.com', 0, 4),
@@ -26,18 +34,18 @@ INSERT INTO cliente (nombre, direccion, telefono, email, ciudad_id_ciudad) VALUE
 
 -- Cotizacion
 INSERT INTO cotizacion (fecha, total, vendedor_cedula) VALUES 
-(SYSDATE, 239.97, '12345678'),
-(SYSDATE, 259.98, '23456789'), 
-(SYSDATE, 999.99, '12345678'), 
-(SYSDATE, 2799.96, '23456789'), 
-(SYSDATE, 1499.95, '12345678')
+(NOW(), 239.97, '12345678'),
+(NOW(), 259.98, '23456789'), 
+(NOW(), 999.99, '12345678'), 
+(NOW(), 2799.96, '23456789'), 
+(NOW(), 1499.95, '12345678')
 
 INSERT INTO factura (fecha, total, id_cliente, vendedor_cedula) VALUES 
-(SYSDATE, 239.97, 3, '12345678'),
-(SYSDATE, 259.98, 5, '23456789'),
-(SYSDATE, 999.99, 2, '12345678'),
-(SYSDATE, 2799.96, 1, '23456789'),
-(SYSDATE, 1499.95, 4, '12345678')
+(NOW(), 239.97, 3, '12345678'),
+(NOW(), 259.98, 5, '23456789'),
+(NOW(), 999.99, 2, '12345678'),
+(NOW(), 2799.96, 1, '23456789'),
+(NOW(), 1499.95, 4, '12345678')
 
 -- Producto
 INSERT INTO producto (nombre, descripcion, precio, cantidad) VALUES 
