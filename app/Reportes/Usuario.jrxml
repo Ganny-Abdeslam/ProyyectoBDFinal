@@ -99,9 +99,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<textField>
-				<reportElement x="-20" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="16db9815-c112-49ed-9f05-a9073951bb82"/>
+				<reportElement x="-20" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="16db9815-c112-49ed-9f05-a9073951bb82"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -112,7 +112,7 @@
 				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="80" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="8171dabd-e365-4269-aee5-9d05ad569349"/>
+				<reportElement x="80" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="8171dabd-e365-4269-aee5-9d05ad569349"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -120,10 +120,11 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{primerNombre} +" "+$F{segundoNombre}+" " +" "+$F{primerApellido}+" "+$F{segundoApellido}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{primerNombre} +" "+$F{segundoNombre}+" " +
+$F{primerApellido}+" "+$F{segundoApellido}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="180" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="77d7463a-1d94-4aae-9cc9-a90548d7cf18"/>
+				<reportElement x="180" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="77d7463a-1d94-4aae-9cc9-a90548d7cf18"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -134,7 +135,7 @@
 				<textFieldExpression><![CDATA[$F{fechaNacimiento}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="eeabd909-b1cf-4e61-91ca-c1d3d1099930"/>
+				<reportElement x="280" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="eeabd909-b1cf-4e61-91ca-c1d3d1099930"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -145,7 +146,7 @@
 				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="eda39fc3-cad7-4db0-b8d3-847e3155494e"/>
+				<reportElement x="380" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="eda39fc3-cad7-4db0-b8d3-847e3155494e"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -156,7 +157,7 @@
 				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="480" y="0" width="95" height="20" isPrintWhenDetailOverflows="true" uuid="0c57e923-9aad-4f96-bf94-06409e467369"/>
+				<reportElement x="480" y="0" width="95" height="30" isPrintWhenDetailOverflows="true" uuid="0c57e923-9aad-4f96-bf94-06409e467369"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
