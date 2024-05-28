@@ -3,7 +3,7 @@ from database.inicializacionTablas import generacionTablas
 from View.principalScreen import PrincipalScreen
 from database.generarCiudades import Countries, Departamentos, Ciudades
 from model.Cliente import Cliente
-from Reportes.UsuarioReporte import UsuarioReport
+from Reportes.FacturaReporte import FacturaReport
 
 import sys
 from PyQt6.QtWidgets import QApplication
@@ -61,5 +61,5 @@ if __name__ == "__main__":
     # PrincipalScreen().show()
     # sys.exit(app.exec())
 
-    p = UsuarioReport()
-    p.reporte()
+    p = FacturaReport()
+    p.reporte(20)

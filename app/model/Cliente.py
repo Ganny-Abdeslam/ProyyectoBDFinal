@@ -8,6 +8,19 @@ class Cliente:
         self.email = email
         self.ciudad_id = ciudad_id
 
+    def addID(self, id):
+        self.id = id
+
+    def to_dict(self):
+        return {
+            "id_cliente": self.id,
+            "nombre": self.nombre,
+            "direccion": self.direccion,
+            "telefono": self.telefono,
+            "email": self.email,
+            "ciudad_id": self.ciudad_id
+        }
+
     def agregarCliente(self):
         conexion = conexionBD().conectar()
 
@@ -42,7 +55,7 @@ class BDCliente:
     def listar(self):
         conexion = conexionBD().conectar()
 
-        consulta = "SELECT * FROM cliente"
+        consulta = "SELECT id_cliente, cl.nombre, direccion, telefono, email, c.nombre FROM cliente cl INNER JOIN ciudad c ON (c.id_ciudad = cl.ciudad_id_ciudad)"
 
         cursor = conexion.cursor()
         cursor.execute(consulta)
@@ -55,8 +68,9 @@ class BDCliente:
 
         for resultado in resultados:
             id_cliente, nombre, direccion, telefono, email, ciudad_id = resultado
-            cliente = Cliente(id_cliente, nombre, direccion, telefono, email, ciudad_id)
-            clientes.append(cliente)
+            cliente = Cliente(nombre, direccion, telefono, email, ciudad_id)
+            cliente.addID(id_cliente)
+            clientes.append(cliente.to_dict())
 
         return clientes
     
