@@ -26,18 +26,18 @@ INSERT INTO cliente (nombre, direccion, telefono, email, ciudad_id_ciudad) VALUE
 
 -- Cotizacion
 INSERT INTO cotizacion (fecha, total, vendedor_cedula) VALUES 
-(SYSDATE, 239.97, '12345678'),
-(SYSDATE, 259.98, '23456789'), 
-(SYSDATE, 999.99, '12345678'), 
-(SYSDATE, 2799.96, '23456789'), 
-(SYSDATE, 1499.95, '12345678')
+(NOW(), 239.97, '12345678'),
+(NOW(), 259.98, '23456789'), 
+(NOW(), 999.99, '12345678'), 
+(NOW(), 2799.96, '23456789'), 
+(NOW(), 1499.95, '12345678')
 
 INSERT INTO factura (fecha, total, id_cliente, vendedor_cedula) VALUES 
-(SYSDATE, 239.97, 3, '12345678'),
-(SYSDATE, 259.98, 5, '23456789'),
-(SYSDATE, 999.99, 2, '12345678'),
-(SYSDATE, 2799.96, 1, '23456789'),
-(SYSDATE, 1499.95, 4, '12345678')
+(NOW(), 239.97, 3, '12345678'),
+(NOW(), 259.98, 5, '23456789'),
+(NOW(), 999.99, 2, '12345678'),
+(NOW(), 2799.96, 1, '23456789'),
+(NOW(), 1499.95, 4, '12345678')
 
 -- Producto
 INSERT INTO producto (nombre, descripcion, precio, cantidad) VALUES 
