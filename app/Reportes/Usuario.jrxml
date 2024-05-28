@@ -9,11 +9,11 @@
 	<field name="segundoNombre" class="java.lang.String"/>
 	<field name="primerApellido" class="java.lang.String"/>
 	<field name="segundoApellido" class="java.lang.String"/>
-	<field name="fechaNacimiento" class="java.sql.Date"/>
+	<field name="fechaNacimiento" class="java.lang.String"/>
 	<field name="telefono" class="java.lang.String"/>
 	<field name="direccion" class="java.lang.String"/>
 	<field name="email" class="java.lang.String"/>
-	<field name="salario" class="java.lang.String"/>
+	<field name="salario" class="java.lang.Float"/>
 	<field name="username" class="java.lang.String"/>
 	<field name="password" class="java.lang.String"/>
 	<field name="idSucursal" class="java.lang.Integer"/>
@@ -172,20 +172,46 @@
 		<band height="210" splitType="Stretch">
 			<pieChart>
 				<chart evaluationTime="Report">
-					<reportElement x="177" y="10" width="200" height="200" uuid="a1c9ee92-f343-457e-807d-4e730da288d9"/>
+					<reportElement x="370" y="10" width="200" height="200" uuid="06fb1d8f-1e0f-402e-9c52-681b66ed12f8"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<pieDataset>
-					<keyExpression><![CDATA[$F{idSucursal}]]></keyExpression>
-					<valueExpression><![CDATA[1]]></valueExpression>
+					<keyExpression><![CDATA[$F{cedula}]]></keyExpression>
+					<valueExpression><![CDATA[$F{salario}]]></valueExpression>
+					<labelExpression><![CDATA[$F{primerApellido}]]></labelExpression>
 				</pieDataset>
 				<piePlot>
 					<plot/>
 					<itemLabel/>
 				</piePlot>
 			</pieChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="10" width="360" height="200" uuid="b3badeb4-45cf-4f21-bb1c-73685e1566e7"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Salarios"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{cedula}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{salario}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
 		</band>
 	</summary>
 </jasperReport>

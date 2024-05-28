@@ -23,11 +23,11 @@ class Usuario:
             'segundoNombre': self.segundoNombre,
             'primerApellido': self.primerApellido,
             'segundoApellido': self.segundoApellido,
-            'fechaNacimiento': self.fechaNacimiento,
+            'fechaNacimiento': self.fechaNacimiento.isoformat(),
             'telefono': self.telefono,
             'direccion': self.direccion,
             'email': self.email,
-            'salario': self.salario,
+            'salario': float(self.salario),
             'username': self.username,
             'password': self.password,
             'idSucursal': self.idSucursal
