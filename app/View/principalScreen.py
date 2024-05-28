@@ -158,6 +158,7 @@ class UsuarioWindow(QWidget):
         layout_usuario.addWidget(QLabel("Fecha de Nacimiento:"), 5, 0)
         self.fecha_nacimiento_edit = QDateEdit()
         self.fecha_nacimiento_edit.setCalendarPopup(True)
+        self.fecha_nacimiento_edit.setDate(QDate.currentDate())
         self.fecha_nacimiento_edit.setStyleSheet("background-color: white; color:black;")
         layout_usuario.addWidget(self.fecha_nacimiento_edit, 5, 1)
 
@@ -235,20 +236,34 @@ class UsuarioWindow(QWidget):
         boton_actualizar = QPushButton("Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
+        boton_actualizar.clicked.connect(self.actualizar_usuario)
 
         boton_eliminar = QPushButton("Eliminar")
         boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_eliminar.setFixedSize(120, 40)
+        boton_eliminar.clicked.connect(self.mostrar_popup_eliminar)
 
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_usuario)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
+        boton_buscar = QPushButton("Buscar por cedula")
+        boton_buscar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar.setFixedSize(120, 40)
+        boton_buscar.clicked.connect(self.mostrar_popup_buscar)
+
         layout_usuario.addWidget(boton_volver, 16, 0, 1, 1)
         layout_usuario.addWidget(boton_actualizar, 16, 1, 1, 1)
         layout_usuario.addWidget(boton_eliminar, 16, 2, 1, 1)
         layout_usuario.addWidget(boton_agregar, 16, 3, 1, 1)
+        layout_usuario.addWidget(boton_generar_reporte, 17, 0, 1, 1)
+        layout_usuario.addWidget(boton_buscar, 17, 1, 1, 1)
 
         self.setLayout(layout_usuario)
         self.parent = parent
@@ -291,11 +306,144 @@ class UsuarioWindow(QWidget):
             self.nombre_jefe_label.show()
             self.nombre_jefe_edit.show()
 
+    def generar_reporte(self):
+        pass
+
+    def mostrar_popup_eliminar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Eliminar Usuario")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese la cédula del usuario a eliminar:")
+        layout.addWidget(label)
+
+        self.id_usuario_eliminar_edit = QLineEdit()
+        self.id_usuario_eliminar_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_usuario_eliminar_edit)
+
+        boton_eliminar_confirmar = QPushButton("Eliminar")
+        boton_eliminar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar_confirmar.setFixedSize(120, 40)
+        boton_eliminar_confirmar.clicked.connect(self.eliminar_usuario)
+
+        layout.addWidget(boton_eliminar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec()
+
+    def eliminar_usuario(self):
+        usuarioEliminar = UsuarioController()
+        condicion = usuarioEliminar.validacionEliminar(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Usuario eliminado exitosamente.")
+            self.id_usuario_eliminar_edit.setText("")
+            self.cedula_edit.setText("")
+            self.primer_nombre_edit.setText("")
+            self.segundo_nombre_edit.setText("")
+            self.primer_apellido_edit.setText("")
+            self.segundo_apellido_edit.setText("")
+            self.fecha_nacimiento_edit.setDate(QDate.currentDate())
+            self.telefono_edit.setText("")
+            self.direccion_edit.setText("")
+            self.email_edit.setText("")
+            self.salario_edit.setText("")
+            self.username_edit.setText("")
+            self.password_edit.setText("")
+            self.tipo_usuario_combobox.setCurrentIndex(0)
+            self.comision_edit.setText("")
+            self.placa_edit.setText("")
+            self.nombre_jefe_edit.setText("")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
+
+    def mostrar_popup_buscar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Buscar y Actualizar Usuario")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese la cédula del usuario a buscar:")
+        layout.addWidget(label)
+
+        self.id_usuario_buscar_edit = QLineEdit()
+        self.id_usuario_buscar_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_usuario_buscar_edit)
+
+        boton_buscar_confirmar = QPushButton("Buscar")
+        boton_buscar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar_confirmar.setFixedSize(120, 40)
+        boton_buscar_confirmar.clicked.connect(self.buscar_usuario)
+
+        layout.addWidget(boton_buscar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec()
+
+    def buscar_usuario(self):
+        usuarioBuscar = UsuarioController()
+        usuario = usuarioBuscar.llenarDatos(self, self.id_usuario_buscar_edit.text())
+        if (usuario == None):
+            QMessageBox.information(self, "Informacion", "Usuario no encontrado.")
+        else:
+            QMessageBox.information(self, "Informacion", "Usuario encontrado.")
+            self.cedula_edit.setText(str(usuario.cedula))
+            self.primer_nombre_edit.setText(usuario.primerNombre)
+            self.segundo_nombre_edit.setText(usuario.segundoNombre)
+            self.primer_apellido_edit.setText(usuario.primerApellido)
+            self.segundo_apellido_edit.setText(usuario.segundoApellido)
+            self.fecha_nacimiento_edit.setDate(usuario.fechaNacimiento)
+            self.telefono_edit.setText(usuario.telefono)
+            self.direccion_edit.setText(usuario.direccion)
+            self.email_edit.setText(usuario.email)
+            self.salario_edit.setText(str(usuario.salario))
+            self.username_edit.setText(usuario.username)
+            self.password_edit.setText(usuario.password)
+            self.tipo_usuario_combobox.setCurrentIndex(0)
+            self.comision_edit.setText("")
+            self.placa_edit.setText("")
+            self.nombre_jefe_edit.setText("")
+
+    def actualizar_usuario(self):
+        usuarioActualizar = UsuarioController()
+        condicion = usuarioActualizar.validacionActualizarUsuario(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Usuario actualizado exitosamente.")
+            self.cedula_edit.setText("")
+            self.primer_nombre_edit.setText("")
+            self.segundo_nombre_edit.setText("")
+            self.primer_apellido_edit.setText("")
+            self.segundo_apellido_edit.setText("")
+            self.fecha_nacimiento_edit.setDate(QDate.currentDate())
+            self.telefono_edit.setText("")
+            self.direccion_edit.setText("")
+            self.email_edit.setText("")
+            self.salario_edit.setText("")
+            self.username_edit.setText("")
+            self.password_edit.setText("")
+            self.tipo_usuario_combobox.setCurrentIndex(0)
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
+
     def agregar_usuario(self):
         usuarioAgregar = UsuarioController() 
         condicion = usuarioAgregar.validacionGuardarUsuario(self)
         if (condicion):
             QMessageBox.information(self, "Éxito", "Usuario agregado exitosamente.")
+            self.cedula_edit.setText("")
+            self.primer_nombre_edit.setText("")
+            self.segundo_nombre_edit.setText("")
+            self.primer_apellido_edit.setText("")
+            self.segundo_apellido_edit.setText("")
+            self.fecha_nacimiento_edit.setDate(QDate.currentDate())
+            self.telefono_edit.setText("")
+            self.direccion_edit.setText("")
+            self.email_edit.setText("")
+            self.salario_edit.setText("")
+            self.username_edit.setText("")
+            self.password_edit.setText("")
+            self.tipo_usuario_combobox.setCurrentIndex(0)
+            
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
@@ -342,7 +490,7 @@ class ClienteWindow(QWidget):
         self.ciudad_cliente_combobox = QComboBox()
         self.ciudad_cliente_combobox.setStyleSheet("background-color: white;")
         ciudades = BDCiudad()
-        self.ciudad_cliente_combobox.addItems(ciudades.listarCiudades())
+        self.ciudad_cliente_combobox.addItems(ciudades.listarCiudades()) 
         layout_cliente.addWidget(self.ciudad_cliente_combobox, 4, 1)
 
         # Botones
@@ -354,6 +502,7 @@ class ClienteWindow(QWidget):
         boton_actualizar = QPushButton("Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
+        boton_actualizar.clicked.connect(self.actualizar_cliente)
 
         boton_eliminar = QPushButton("Eliminar")
         boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
@@ -365,10 +514,23 @@ class ClienteWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_cliente)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
+        
+        boton_buscar = QPushButton("Buscar por nombre")
+        boton_buscar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar.setFixedSize(120, 40)
+        boton_buscar.clicked.connect(self.mostrar_popup_buscar)
+
         layout_cliente.addWidget(boton_volver, 5, 0, 1, 1)
         layout_cliente.addWidget(boton_actualizar, 5, 1, 1, 1)
         layout_cliente.addWidget(boton_eliminar, 5, 2, 1, 1)
         layout_cliente.addWidget(boton_agregar, 5, 3, 1, 1)
+        layout_cliente.addWidget(boton_generar_reporte, 6, 0, 1, 1)
+        layout_cliente.addWidget(boton_buscar, 6, 1, 1, 1)
 
         self.setLayout(layout_cliente)
         self.parent = parent
@@ -378,8 +540,16 @@ class ClienteWindow(QWidget):
         condicion = clienteAgregar.validacionGuardarCliente(self)
         if (condicion):
             QMessageBox.information(self, "Éxito", "Cliente agregado exitosamente.")
+            self.nombre_cliente_edit.setText("")
+            self.direccion_cliente_edit.setText("")
+            self.telefono_cliente_edit.setText("")
+            self.email_cliente_edit.setText("")
+            self.ciudad_cliente_combobox.setCurrentIndex(0)
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
+
+    def generar_reporte(self):
+        pass
 
     def mostrar_popup_eliminar(self):
         dialog = QDialog(self)
@@ -405,9 +575,68 @@ class ClienteWindow(QWidget):
         dialog.exec()
 
     def eliminar_cliente(self):
-        pass
+        clienteEliminar = ClienteController()
+        condicion = clienteEliminar.validacionEliminar(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Cliente eliminado exitosamente.")
+            self.id_cliente_eliminar_edit.setText("")
+            self.nombre_cliente_edit.setText("")
+            self.direccion_cliente_edit.setText("")
+            self.telefono_cliente_edit.setText("")
+            self.email_cliente_edit.setText("")
+            self.ciudad_cliente_combobox.setCurrentIndex(0)
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
+    def mostrar_popup_buscar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Buscar cliente")
 
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese el nombre del cliente a buscar:")
+        layout.addWidget(label)
+
+        self.nombre_cliente_popup_edit = QLineEdit()
+        self.nombre_cliente_popup_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.nombre_cliente_popup_edit)
+
+        boton_buscar_confirmar = QPushButton("Buscar")
+        boton_buscar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar_confirmar.setFixedSize(120, 40)
+        boton_buscar_confirmar.clicked.connect(self.buscar_cliente)
+
+        layout.addWidget(boton_buscar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec() 
+
+    def buscar_cliente(self):
+        clienteBuscar = ClienteController()
+        cliente = clienteBuscar.llenarDatos(self, self.nombre_cliente_popup_edit.text())
+        if (cliente == None):
+            QMessageBox.information(self, "Informacion", "Cliente no encontrado.")
+        else:
+            QMessageBox.information(self, "Informacion", "Cliente encontrado.")
+            self.nombre_cliente_edit.setText(cliente.nombre)
+            self.direccion_cliente_edit.setText(cliente.direccion)
+            self.telefono_cliente_edit.setText(cliente.telefono)
+            self.email_cliente_edit.setText(cliente.email)
+            self.ciudad_cliente_combobox.setCurrentIndex(cliente.ciudad_id)
+
+    def actualizar_cliente(self):
+        clienteActualizar = ClienteController()
+        condicion = clienteActualizar.validacionActualizarCliente(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Cliente actualizado exitosamente.")
+            self.nombre_cliente_edit.setText("")
+            self.direccion_cliente_edit.setText("")
+            self.telefono_cliente_edit.setText("")
+            self.email_cliente_edit.setText("")
+            self.ciudad_cliente_combobox.setCurrentIndex(0)
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
+        
     def volver_a_principal(self):
         self.close()
         self.parent.show()
@@ -460,7 +689,7 @@ class SucursalWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar = QPushButton("Buscar y Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
 
@@ -545,6 +774,13 @@ class SucursalWindow(QWidget):
         condicion = sucursalEliminar.validacionEliminar(self)
         if (condicion):
             QMessageBox.information(self, "Éxito", "Sucursal eliminada exitosamente.")
+            self.id_sucursal_eliminar_edit.setText("")
+            self.direccion_sucursal_edit.setText("")
+            self.telefono_sucursal_edit.setText("")
+            self.telefono_sucursal_edit.setText("")
+            self.email_sucursal_edit.setText("")
+            self.cedula_jefe_sucursal_edit.setText("")
+            self.ciudad_sucursal_combobox.setCurrentIndex(0)
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
        
@@ -593,7 +829,7 @@ class ProductoWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar = QPushButton("Buscar y Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
 
@@ -607,10 +843,16 @@ class ProductoWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_producto)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
         layout_producto.addWidget(boton_volver, 4, 0, 1, 1)
         layout_producto.addWidget(boton_actualizar, 4, 1, 1, 1)
         layout_producto.addWidget(boton_eliminar, 4, 2, 1, 1)
         layout_producto.addWidget(boton_agregar, 4, 3, 1, 1)
+        layout_producto.addWidget(boton_generar_reporte, 5, 0, 1, 1)
 
         self.setLayout(layout_producto)
         self.parent = parent
@@ -626,6 +868,9 @@ class ProductoWindow(QWidget):
             self.cantidad_producto_edit.setText("")
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
+
+    def generar_reporte(self):
+        pass
 
     def mostrar_popup_eliminar(self):
         dialog = QDialog(self)
@@ -655,6 +900,11 @@ class ProductoWindow(QWidget):
         condicion = productoEliminar.validacionEliminar(self)
         if (condicion):
             QMessageBox.information(self, "Éxito", "Producto eliminado exitosamente.")
+            self.id_producto_eliminar_edit.setText("")
+            self.nombre_producto_edit.setText("")
+            self.descripcion_producto_edit.setText("")
+            self.precio_producto_edit.setText("")
+            self.cantidad_producto_edit.setText("")
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
@@ -676,6 +926,7 @@ class FacturaWindow(QWidget):
         layout_factura.addWidget(QLabel("Fecha de la Factura:"), 0, 0)
         self.fecha_factura_calendar = QDateEdit()
         self.fecha_factura_calendar.setCalendarPopup(True)
+        self.fecha_factura_calendar.setDate(QDate.currentDate())
         self.fecha_factura_calendar.setStyleSheet("background-color: white; color:black;")
         layout_factura.addWidget(self.fecha_factura_calendar, 0, 1)
 
@@ -703,23 +954,30 @@ class FacturaWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar = QPushButton("Buscar y Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
 
         boton_eliminar = QPushButton("Eliminar")
         boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_eliminar.setFixedSize(120, 40)
+        boton_eliminar.clicked.connect(self.mostrar_popup_eliminar)
 
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_factura)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
         layout_factura.addWidget(boton_volver, 4, 0, 1, 1)
         layout_factura.addWidget(boton_actualizar, 4, 1, 1, 1)
         layout_factura.addWidget(boton_eliminar, 4, 2, 1, 1)
         layout_factura.addWidget(boton_agregar, 4, 3, 1, 1)
+        layout_factura.addWidget(boton_generar_reporte, 5, 0, 1, 1)
 
         self.setLayout(layout_factura)
         self.parent = parent
@@ -729,6 +987,45 @@ class FacturaWindow(QWidget):
         condicion = facturaAgregar.validacionGuardarFactura(self)
         if (condicion):
             QMessageBox.information(self, "Éxito", "Factura agregado exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
+    
+    def generar_reporte(self):
+        pass
+    
+    def mostrar_popup_eliminar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Eliminar Factura")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese el ID de la factura a eliminar:")
+        layout.addWidget(label)
+
+        self.id_factura_eliminar_edit = QLineEdit()
+        self.id_factura_eliminar_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_factura_eliminar_edit)
+
+        boton_eliminar_confirmar = QPushButton("Eliminar")
+        boton_eliminar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar_confirmar.setFixedSize(120, 40)
+        boton_eliminar_confirmar.clicked.connect(self.eliminar_factura)
+
+        layout.addWidget(boton_eliminar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec()
+
+    def eliminar_factura(self):
+        facturaEliminar = FacturaController()
+        condicion = facturaEliminar.validacionEliminar(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Factura eliminada exitosamente.")
+            self.id_factura_eliminar_edit.setText("")
+            self.fecha_factura_calendar.setDate(QDate.currentDate())
+            self.total_factura_edit.setText("")
+            self.id_cliente_edit.setText("")
+            self.cedula_vendedor_edit.setText("")
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
@@ -776,7 +1073,7 @@ class ProveedorWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar = QPushButton("Buscar y Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
 
@@ -789,10 +1086,16 @@ class ProveedorWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_proveedor)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
         layout_proveedor.addWidget(boton_volver, 4, 0, 1, 1)
         layout_proveedor.addWidget(boton_actualizar, 4, 1, 1, 1)
         layout_proveedor.addWidget(boton_eliminar, 4, 2, 1, 1)
         layout_proveedor.addWidget(boton_agregar, 4, 3, 1, 1)
+        layout_proveedor.addWidget(boton_generar_reporte, 5, 0, 1, 1)
 
         self.setLayout(layout_proveedor)
         self.parent = parent
@@ -805,6 +1108,9 @@ class ProveedorWindow(QWidget):
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
+    def generar_reporte(self):
+        pass
+    
     def volver_a_principal(self):
         self.close()
         self.parent.show()
@@ -843,7 +1149,7 @@ class MaterialWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar = QPushButton("Buscar y Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
 
@@ -856,10 +1162,16 @@ class MaterialWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_material)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
         layout_material.addWidget(boton_volver, 3, 0, 1, 1)
         layout_material.addWidget(boton_actualizar, 3, 1, 1, 1)
         layout_material.addWidget(boton_eliminar, 3, 2, 1, 1)
         layout_material.addWidget(boton_agregar, 3, 3, 1, 1)
+        layout_material.addWidget(boton_generar_reporte, 4, 0, 1, 1)
 
         self.setLayout(layout_material)
         self.parent = parent
@@ -872,6 +1184,9 @@ class MaterialWindow(QWidget):
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
+    def generar_reporte(self):
+        pass
+    
     def volver_a_principal(self):
         self.close()
         self.parent.show()
@@ -890,6 +1205,7 @@ class CotizacionWindow(QWidget):
         layout_cotizacion.addWidget(QLabel("Fecha de la Cotización:"), 0, 0)
         self.fecha_cotizacion_calendar = QDateEdit()
         self.fecha_cotizacion_calendar.setCalendarPopup(True)
+        self.fecha_cotizacion_calendar.setDate(QDate.currentDate())
         self.fecha_cotizacion_calendar.setStyleSheet("background-color: white; color:black;")
         layout_cotizacion.addWidget(self.fecha_cotizacion_calendar, 0, 1)
 
@@ -911,7 +1227,7 @@ class CotizacionWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar = QPushButton("Buscar y Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
 
@@ -924,10 +1240,16 @@ class CotizacionWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_cotizacion)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
         layout_cotizacion.addWidget(boton_volver, 3, 0, 1, 1)
         layout_cotizacion.addWidget(boton_actualizar, 3, 1, 1, 1)
         layout_cotizacion.addWidget(boton_eliminar, 3, 2, 1, 1)
         layout_cotizacion.addWidget(boton_agregar, 3, 3, 1, 1)
+        layout_cotizacion.addWidget(boton_generar_reporte, 4, 0, 1, 1)
 
         self.setLayout(layout_cotizacion)
         self.parent = parent
@@ -940,6 +1262,9 @@ class CotizacionWindow(QWidget):
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
+    def generar_reporte(self):
+        pass
+    
     def volver_a_principal(self):
         self.close()
         self.parent.show()
@@ -970,6 +1295,7 @@ class EntregaPedidoWindow(QWidget):
         layout_entrega_pedido.addWidget(QLabel("Fecha de Entrega:"), 2, 0)
         self.fecha_entrega_calendar = QDateEdit()
         self.fecha_entrega_calendar.setCalendarPopup(True)
+        self.fecha_entrega_calendar.setDate(QDate.currentDate())
         self.fecha_entrega_calendar.setStyleSheet("background-color: white; color:black;")
         layout_entrega_pedido.addWidget(self.fecha_entrega_calendar, 2, 1)
 
@@ -991,7 +1317,7 @@ class EntregaPedidoWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar = QPushButton("Buscar y Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
 
@@ -1004,10 +1330,16 @@ class EntregaPedidoWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_entrega_pedido)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
         layout_entrega_pedido.addWidget(boton_volver, 6, 0, 1, 1)
         layout_entrega_pedido.addWidget(boton_actualizar, 6, 1, 1, 1)
         layout_entrega_pedido.addWidget(boton_eliminar, 6, 2, 1, 1)
         layout_entrega_pedido.addWidget(boton_agregar, 6, 3, 1, 1)
+        layout_entrega_pedido.addWidget(boton_generar_reporte, 7, 0, 1, 1)
 
         self.setLayout(layout_entrega_pedido)
         self.parent = parent
@@ -1020,6 +1352,9 @@ class EntregaPedidoWindow(QWidget):
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
+    def generar_reporte(self):
+        pass
+    
     def volver_a_principal(self):
         self.close()
         self.parent.show()
@@ -1050,6 +1385,7 @@ class DespachoPedidoWindow(QWidget):
         layout_despacho_pedido.addWidget(QLabel("Fecha de Despacho:"), 2, 0)
         self.fecha_despacho_calendar = QDateEdit()
         self.fecha_despacho_calendar.setCalendarPopup(True)
+        self.fecha_despacho_calendar.setDate(QDate.currentDate())
         self.fecha_despacho_calendar.setStyleSheet("background-color: white; color:black;")
         layout_despacho_pedido.addWidget(self.fecha_despacho_calendar, 2, 1)
 
@@ -1065,7 +1401,7 @@ class DespachoPedidoWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Actualizar")
+        boton_actualizar = QPushButton("Buscar y Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
 
@@ -1078,10 +1414,16 @@ class DespachoPedidoWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_despacho_pedido)
 
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
         layout_despacho_pedido.addWidget(boton_volver, 6, 0, 1, 1)
         layout_despacho_pedido.addWidget(boton_actualizar, 6, 1, 1, 1)
         layout_despacho_pedido.addWidget(boton_eliminar, 6, 2, 1, 1)
         layout_despacho_pedido.addWidget(boton_agregar, 6, 3, 1, 1)
+        layout_despacho_pedido.addWidget(boton_generar_reporte, 7, 0, 1, 1)
 
         self.setLayout(layout_despacho_pedido)
         self.parent = parent
@@ -1094,6 +1436,9 @@ class DespachoPedidoWindow(QWidget):
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
+    def generar_reporte(self):
+        pass
+    
     def volver_a_principal(self):
         self.close()
         self.parent.show()

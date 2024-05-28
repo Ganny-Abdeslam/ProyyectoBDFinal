@@ -22,6 +22,21 @@ class Cliente:
 
         print(f"Se agregó correctamente el cliente: {self.nombre}")
 
+    def updateCliente(self):
+        conexion = conexionBD().conectar()
+
+        consulta = "UPDATE cliente SET direccion = %s, telefono = %s, email = %s, ciudad_id_ciudad = %s WHERE nombre = %s"
+        datos = (self.direccion, self.telefono, self.email, self.ciudad_id, self.nombre)
+
+        cursor = conexion.cursor()
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+        conexion.close()
+
+        print(f"Se actualizó correctamente el cliente: {self.nombre}")
+
+
 class BDCliente:
 
     def listar(self):
@@ -45,13 +60,13 @@ class BDCliente:
 
         return clientes
     
-    def listarCedula(self, cedula):
+    def listarNombre(self, nombre):
         conexion = conexionBD().conectar()
 
-        consulta = "SELECT * FROM cliente WHERE cedula = %s"
+        consulta = "SELECT direccion, telefono, email, ciudad_id_ciudad FROM cliente WHERE nombre = %s"
 
         cursor = conexion.cursor()
-        cursor.execute(consulta, (cedula,))
+        cursor.execute(consulta, (nombre,))
 
         resultado = cursor.fetchone()
 
@@ -60,8 +75,8 @@ class BDCliente:
         if not resultado:
             return None
 
-        id_cliente, nombre, direccion, telefono, email, ciudad_id = resultado
-        cliente = Cliente(id_cliente, nombre, direccion, telefono, email, ciudad_id)
+        direccion, telefono, email, ciudad_id_ciudad = resultado
+        cliente = Cliente(nombre, direccion, telefono, email, ciudad_id_ciudad)
         
         return cliente
 

@@ -21,6 +21,8 @@ class Factura:
 
         print("Se agregó correctamente la factura")
 
+class BDFactura:
+
     def listarFacturas(self):
         conexion = conexionBD().conectar()
 
@@ -61,3 +63,19 @@ class Factura:
         factura = Factura(fecha, total, id_cliente, vendedorCedula)
 
         return factura
+
+    def eliminarFactura(self, id_factura):
+        conexion = conexionBD().conectar()
+
+        cursor = conexion.cursor()
+
+        consulta = "DELETE FROM factura WHERE id_factura = %s"
+        datos = (id_factura)
+
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+
+        conexion.close()
+
+        print("Se eliminó correctamente la factura")

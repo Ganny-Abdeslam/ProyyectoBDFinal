@@ -1,4 +1,4 @@
-from model.Factura import Factura
+from model.Factura import Factura, BDFactura
 
 class FacturaController:
 
@@ -17,4 +17,15 @@ class FacturaController:
             print("Campos llenos")
             self.factura.agregarFactura()
             return True
+        
+    def validacionEliminar(self, FacturaWindow):
+        if (FacturaWindow.id_factura_eliminar_edit.text() == ""):
+            print("Campos vacios")
+            return False
+        else:
+            eliminar = BDFactura()
+            eliminar.eliminarFactura(FacturaWindow.id_factura_eliminar_edit.text())
+            print("Campos llenos")
+            return True
+
       

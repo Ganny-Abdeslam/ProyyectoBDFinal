@@ -27,4 +27,21 @@ class ClienteController:
                 eliminar = BDCliente()
                 eliminar.eliminarCliente(ClienteWindow.id_cliente_eliminar_edit.text())
                 return True
+            
+        def llenarDatos(self, ClienteWindow, nombre):
+            self.cliente = BDCliente()
+            busqueda = self.cliente.listarNombre(nombre)
+            if (busqueda == None):
+                return None
+            return busqueda
+            
+        def validacionActualizarCliente(self, ClienteWindow):
+            if (ClienteWindow.nombre_cliente_edit.text() == "" or ClienteWindow.direccion_cliente_edit.text() == "" or ClienteWindow.telefono_cliente_edit.text() == "" or ClienteWindow.email_cliente_edit.text() == ""):
+                print("Campos vacios")
+                return False
+            else:
+                self.inicio(ClienteWindow.nombre_cliente_edit.text(), ClienteWindow.direccion_cliente_edit.text(), ClienteWindow.telefono_cliente_edit.text(), ClienteWindow.email_cliente_edit.text(), ClienteWindow.ciudad_cliente_combobox.currentIndex())
+                print("Campos llenos")
+                self.cliente.updateCliente()
+                return True
                 

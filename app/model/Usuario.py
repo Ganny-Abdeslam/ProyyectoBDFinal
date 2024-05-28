@@ -47,6 +47,21 @@ class Usuario:
 
         print("Se agregó correctamente el usuario")
 
+    def updateUsuario(self):
+        conexion = conexionBD().conectar()
+
+        consulta = "UPDATE usuario SET primer_nombre = %s, segundo_nombre = %s, primer_apellido = %s, segundo_apellido = %s, fecha_nacimiento = %s, telefono = %s, direccion = %s, email = %s, salario = %s, username = %s, password = %s, id_sucursal = %s WHERE cedula = %s"
+        datos = (self.primerNombre, self.segundoNombre, self.primerApellido, self.segundoApellido, self.fechaNacimiento, self.telefono, self.direccion, self.email, self.salario, self.username, self.password, self.idSucursal, self.cedula)
+
+        cursor = conexion.cursor()
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+        conexion.close()
+
+        print("Se actualizó correctamente el usuario correctamente")
+
+
 class BDUsuario:
 
     def __init__(self) -> None:
@@ -92,3 +107,19 @@ class BDUsuario:
         usuario = Usuario(cedula, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaNacimiento, telefono, direccion, email, salario, username, password, idSucursal)
 
         return usuario
+    
+    def eliminarUsuario(self, cedula):
+        conexion = conexionBD().conectar()
+
+        cursor = conexion.cursor()
+
+        consulta = "DELETE FROM usuario WHERE cedula = %s"
+        datos = (cedula)
+
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+
+        conexion.close()
+
+        print("Se eliminó correctamente el usuario")
