@@ -73,8 +73,8 @@ INSERT INTO proveedor (nombre, direccion, email, telefono) VALUES
 
 -- DetalleFactura
 INSERT INTO factura_detalle (id_factura, id_producto, cantidad, precio) VALUES 
-(1, 1, 3, 239.97),   
-(2, 2, 2, 259.98), 
-(3, 3, 1, 999.99), 
-(4, 4, 4, 2799.96), 
-(5, 5, 5, 1499.95)
+(11, 1, 3, 239.97),   
+(11, 2, 2, 259.98), 
+(11, 3, 1, 999.99), 
+(11, 4, 4, 2799.96), 
+(11, 5, 5, 1499.95)

@@ -4,6 +4,7 @@ from PyQt6.QtCore import Qt, QDate
 from Reportes.SucursalReporte import SucursalReport
 from Reportes.UsuarioReporte import UsuarioReport
 from Reportes.FacturaReporte import FacturaReport
+from Reportes.ClienteReporte import ClienteReport
 import webbrowser
 import os
 
@@ -562,7 +563,18 @@ class ClienteWindow(QWidget):
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def generar_reporte(self):
-        pass
+        clienteReporte = ClienteReport()
+        clienteReporte.reporte()
+
+        # Obtener la ruta del directorio de trabajo actual
+        directorio_actual = os.getcwd()
+        
+        # Concatenar la ruta del archivo PDF
+        pdf_nombre = "ReporteCliente.pdf"
+        pdf_path = os.path.join(directorio_actual + "/app/Reportes/", pdf_nombre)
+        
+        # Abrir el PDF en el navegador
+        webbrowser.open_new(pdf_path)
 
     def mostrar_popup_eliminar(self):
         dialog = QDialog(self)
@@ -1094,10 +1106,10 @@ class FacturaWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_factura)
 
-        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte = QPushButton("Reporte")
         boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_generar_reporte.setFixedSize(120, 40)
-        boton_generar_reporte.clicked.connect(self.generar_reporte)
+        boton_generar_reporte.clicked.connect(self.mostrar_popup_reporte)
 
         boton_buscar = QPushButton("Buscar por id")
         boton_buscar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
@@ -1122,9 +1134,32 @@ class FacturaWindow(QWidget):
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
     
+    def mostrar_popup_reporte(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Reporte")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese el ID de la factura para generar su reporte:")
+        layout.addWidget(label)
+
+        self.id_factura_reporte_edit = QLineEdit()
+        self.id_factura_reporte_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_factura_reporte_edit)
+
+        boton_generar_reporte = QPushButton("Generar reporte")
+        boton_generar_reporte.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_generar_reporte.setFixedSize(120, 40)
+        boton_generar_reporte.clicked.connect(self.generar_reporte)
+
+        layout.addWidget(boton_generar_reporte)
+
+        dialog.setLayout(layout)
+        dialog.exec()
+
     def generar_reporte(self):
         facturaReporte = FacturaReport()
-        facturaReporte.reporte()
+        facturaReporte.reporte(self.id_factura_reporte_edit.text())
 
         # Obtener la ruta del directorio de trabajo actual
         directorio_actual = os.getcwd()
