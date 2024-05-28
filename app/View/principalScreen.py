@@ -356,6 +356,7 @@ class ClienteWindow(QWidget):
         boton_eliminar = QPushButton("Eliminar")
         boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_eliminar.setFixedSize(120, 40)
+        boton_eliminar.clicked.connect(self.mostrar_popup_eliminar)
 
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
@@ -377,7 +378,34 @@ class ClienteWindow(QWidget):
             QMessageBox.information(self, "Éxito", "Cliente agregado exitosamente.")
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
-        
+
+    def mostrar_popup_eliminar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Eliminar Cliente")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese el ID del cliente a eliminar:")
+        layout.addWidget(label)
+
+        self.id_cliente_eliminar_edit = QLineEdit()
+        self.id_cliente_eliminar_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_cliente_eliminar_edit)
+
+        boton_eliminar_confirmar = QPushButton("Eliminar")
+        boton_eliminar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_eliminar_confirmar.setFixedSize(120, 40)
+        boton_eliminar_confirmar.clicked.connect(self.eliminar_cliente)
+
+        layout.addWidget(boton_eliminar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec()
+
+    def eliminar_cliente(self):
+        pass
+
+
     def volver_a_principal(self):
         self.close()
         self.parent.show()
@@ -463,6 +491,12 @@ class SucursalWindow(QWidget):
         condicion = sucursalAgregar.validacionGuardarSucursal(self)
         if (condicion):
             QMessageBox.information(self, "Éxito", "Sucursal agregada exitosamente.")
+            self.direccion_sucursal_edit.setText("")
+            self.telefono_sucursal_edit.setText("")
+            self.telefono_sucursal_edit.setText("")
+            self.email_sucursal_edit.setText("")
+            self.cedula_jefe_sucursal_edit.setText("")
+            self.ciudad_sucursal_combobox.setCurrentIndex(0)
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 

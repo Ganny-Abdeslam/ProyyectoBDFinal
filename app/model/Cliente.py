@@ -22,6 +22,8 @@ class Cliente:
 
         print(f"Se agregó correctamente el cliente: {self.nombre}")
 
+class BDCliente:
+
     def listar(self):
         conexion = conexionBD().conectar()
 
