@@ -3,7 +3,7 @@ from database.inicializacionTablas import generacionTablas
 from View.principalScreen import PrincipalScreen
 from database.generarCiudades import Countries, Departamentos, Ciudades
 from model.Cliente import Cliente
-from Reportes.UsuarioReporte import UsuarioReport
+from Reportes.FacturaReporte import FacturaReport
 
 import sys
 from PyQt6.QtWidgets import QApplication
@@ -54,9 +54,12 @@ def generarNormalizacion():
 
 if __name__ == "__main__":
 
-    generarBD()
-    generarNormalizacion()
-    app = QApplication(sys.argv)
-    PrincipalScreen()
-    PrincipalScreen().show()
-    sys.exit(app.exec())
+    # generarBD()
+    # generarNormalizacion()
+    # app = QApplication(sys.argv)
+    # PrincipalScreen()
+    # PrincipalScreen().show()
+    # sys.exit(app.exec())
+
+    p = FacturaReport()
+    p.reporte(20)

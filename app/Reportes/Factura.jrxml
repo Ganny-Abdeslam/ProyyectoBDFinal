@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5631a88b-c852-48b3-a2c4-f52d3434aa0f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="id_factura" class="java.lang.String"/>
+	<field name="vendedor_cedula" class="java.lang.String"/>
+	<field name="total" class="java.lang.Double"/>
+	<field name="id_cliente" class="java.lang.String"/>
+	<field name="fecha" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="producto" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.String"/>
+	<field name="precio" class="java.lang.Double"/>
+	<field name="subtotal" class="java.lang.Double"/>
+	<title>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement x="97" y="0" width="360" height="70" isPrintWhenDetailOverflows="true" uuid="919b2e48-a80a-4d79-90c6-6620653493ff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte Factura"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="133" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-19" y="0" width="593" height="80" uuid="8eebadba-e2cf-47ce-a0c2-d41152ab6fa3"/>
+			</rectangle>
+			<textField>
+				<reportElement x="-18" y="10" width="160" height="30" isPrintWhenDetailOverflows="true" uuid="02fd0636-4066-4352-bfda-6378d55f8a83"/>
+				<textFieldExpression><![CDATA["ID Factura: "+$F{id_factura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-18" y="50" width="160" height="30" isPrintWhenDetailOverflows="true" uuid="be54c681-318f-4d2b-b9db-3f27c14ea637"/>
+				<textFieldExpression><![CDATA["Cedula Vendedor: "+$F{vendedor_cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="10" width="140" height="30" isPrintWhenDetailOverflows="true" uuid="91856e0a-1f9a-4e5c-9683-e7758c25bb3a"/>
+				<textFieldExpression><![CDATA["ID Cliente: "+$F{id_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="50" width="140" height="30" isPrintWhenDetailOverflows="true" uuid="0f9ec55b-127e-45bc-b913-ad2ef9fb194a"/>
+				<textFieldExpression><![CDATA["Nombre Cliente: "+$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="10" width="118" height="30" isPrintWhenDetailOverflows="true" uuid="fde3c228-e8dc-44a6-a5e2-5f9c91d18d9d"/>
+				<textFieldExpression><![CDATA["Fecha: "+$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="456" y="50" width="118" height="30" isPrintWhenDetailOverflows="true" uuid="340e45fe-6044-4b0c-9b24-e926f93ad4e4"/>
+				<textFieldExpression><![CDATA["Total: $"+$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="15" y="103" width="150" height="30" uuid="f5ce88f0-397d-439e-8871-1fe1c883a999"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Producto"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="165" y="103" width="104" height="30" uuid="82af6c63-5616-4369-909e-6347978f0c7d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Cantidad"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="103" width="126" height="30" uuid="6e7f8700-f13b-4f33-9c2e-ea0d9bf17840"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Precio Unitario"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="103" width="126" height="30" uuid="603a606b-537c-4512-bf46-fe8ec9a2ca51"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["SubTotal"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="15" y="0" width="150" height="30" uuid="bc83d58e-94c6-4451-8ba5-2140182a1d16"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="165" y="0" width="104" height="30" uuid="e8c54d00-1003-4bb3-b37b-2c5815fabca9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="0" width="126" height="30" uuid="e81bc85c-f290-4610-8c43-1770bb68181c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["$"+$F{precio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="0" width="126" height="30" uuid="4d3f2537-d2e4-4257-a310-93a63f0a63bb"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["$"+$F{subtotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="234">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="15" y="20" width="504" height="214" uuid="713a6bed-d053-40d9-acbb-7c61df711c57"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Precios Unitarios"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{producto}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{precio}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["SubTotal"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{producto}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{subtotal}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>
