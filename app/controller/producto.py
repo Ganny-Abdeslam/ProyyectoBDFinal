@@ -27,3 +27,20 @@ class ProductoController:
             eliminar = BDProducto()
             eliminar.eliminarProducto(ProductoWindow.id_producto_eliminar_edit.text())
             return True
+        
+    def llenarDatos(self, ProductoWindow, id_producto):
+        self.producto = BDProducto()
+        busqueda = self.producto.buscarProductoId(id_producto)
+        if (busqueda == None):
+            return None
+        return busqueda
+    
+    def validacionActualizarProducto(self, ProductoWindow, id_producto):
+        if (ProductoWindow.nombre_producto_edit.text() == "" or ProductoWindow.descripcion_producto_edit.text() == "" or ProductoWindow.precio_producto_edit.text() == "" or ProductoWindow.cantidad_producto_edit.text() == ""):
+            print("Campos vacios")
+            return False
+        else:
+            self.inicio(ProductoWindow.nombre_producto_edit.text(), ProductoWindow.descripcion_producto_edit.text(), ProductoWindow.precio_producto_edit.text(), ProductoWindow.cantidad_producto_edit.text())
+            print("Campos llenos")
+            self.producto.updateProducto(id_producto)
+            return True

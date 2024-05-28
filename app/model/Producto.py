@@ -20,6 +20,23 @@ class Producto:
         conexion.close()
 
         print(f"Se agregó correctamente el producto: {self.nombre}")
+    
+    def updateProducto(self, id_producto):
+        conexion = conexionBD().conectar()
+
+        cursor = conexion.cursor()
+
+        consulta = "UPDATE producto SET nombre = %s, descripcion = %s, precio = %s, cantidad = %s WHERE id_producto = %s"
+        datos = (self.nombre, self.descripcion, self.precio, self.cantidad, id_producto)
+
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+        
+        conexion.close()
+
+        print(f"Se actualizó correctamente el producto")
+
 
 class BDProducto:
     def __init__(self) -> None:

@@ -43,7 +43,23 @@ class Sucursal:
         conexion.close()
 
         print("Se agregó correctamente la sucursal")
-    
+
+    def updateSucursal(self, idSucursal):
+        conexion = conexionBD().conectar()
+
+        cursor = conexion.cursor()
+
+        consulta = "UPDATE sucursal SET direccion = %s, telefono = %s, email = %s, jefe_cedula = %s, id_ciudad = %s WHERE id_sucursal = %s"
+        datos = (self.direccion, self.telefono, self.email, self.jefeCedula, self.idCiudad, idSucursal)
+
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+
+        conexion.close()
+
+        print("Se actualizó correctamente la sucursal")
+  
 
 class BDSucursal:
 

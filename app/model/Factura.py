@@ -21,6 +21,23 @@ class Factura:
 
         print("Se agregó correctamente la factura")
 
+    def updateFactura(self, id_factura):
+        conexion = conexionBD().conectar()
+
+        cursor = conexion.cursor()
+
+        consulta = "UPDATE factura SET fecha = %s, total = %s, id_cliente = %s, vendedor_cedula = %s WHERE id_factura = %s"
+        datos = (self.fecha, self.total, self.id_cliente, self.vendedorCedula, id_factura)
+
+        cursor.execute(consulta, datos)
+
+        conexion.commit()
+        
+        conexion.close()
+
+        print(f"Se actualizó correctamente la factura con ID")
+
+
 class BDFactura:
 
     def listarFacturas(self):

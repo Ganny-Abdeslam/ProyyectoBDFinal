@@ -2,6 +2,8 @@ from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QGr
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt, QDate
 from Reportes.SucursalReporte import SucursalReport
+from Reportes.UsuarioReporte import UsuarioReport
+from Reportes.FacturaReporte import FacturaReport
 import webbrowser
 import os
 
@@ -307,7 +309,18 @@ class UsuarioWindow(QWidget):
             self.nombre_jefe_edit.show()
 
     def generar_reporte(self):
-        pass
+        usuarioReporte = UsuarioReport()
+        usuarioReporte.reporte()
+
+        # Obtener la ruta del directorio de trabajo actual
+        directorio_actual = os.getcwd()
+        
+        # Concatenar la ruta del archivo PDF
+        pdf_nombre = "ReporteUsuario.pdf"
+        pdf_path = os.path.join(directorio_actual + "/app/Reportes/", pdf_nombre)
+        
+        # Abrir el PDF en el navegador
+        webbrowser.open_new(pdf_path)  
 
     def mostrar_popup_eliminar(self):
         dialog = QDialog(self)
@@ -689,9 +702,10 @@ class SucursalWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Buscar y Actualizar")
+        boton_actualizar = QPushButton("Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
+        boton_actualizar.clicked.connect(self.actualizar_sucursal)
 
         boton_eliminar = QPushButton("Eliminar")
         boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
@@ -708,11 +722,17 @@ class SucursalWindow(QWidget):
         boton_generar_reporte.setFixedSize(120, 40)
         boton_generar_reporte.clicked.connect(self.generar_reporte)
 
+        boton_buscar = QPushButton("Buscar por id")
+        boton_buscar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar.setFixedSize(120, 40)
+        boton_buscar.clicked.connect(self.mostrar_popup_buscar)
+
         layout_sucursal.addWidget(boton_volver, 5, 0, 1, 1)
         layout_sucursal.addWidget(boton_actualizar, 5, 1, 1, 1)
         layout_sucursal.addWidget(boton_eliminar, 5, 2, 1, 1)
         layout_sucursal.addWidget(boton_agregar, 5, 3, 1, 1)
         layout_sucursal.addWidget(boton_generar_reporte, 6, 0, 1, 1) 
+        layout_sucursal.addWidget(boton_buscar, 6, 1, 1, 1)
 
         self.setLayout(layout_sucursal)
         self.parent = parent
@@ -784,6 +804,56 @@ class SucursalWindow(QWidget):
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
        
+    def mostrar_popup_buscar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Buscar sucursal")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese el id de la sucursal a buscar:")
+        layout.addWidget(label)
+
+        self.id_sucursal_edit = QLineEdit()
+        self.id_sucursal_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_sucursal_edit)
+
+        boton_buscar_confirmar = QPushButton("Buscar")
+        boton_buscar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar_confirmar.setFixedSize(120, 40)
+        boton_buscar_confirmar.clicked.connect(self.buscar_sucursal)
+
+        layout.addWidget(boton_buscar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec() 
+
+    def buscar_sucursal(self):
+        sucursalBuscar = SucursalController()
+        sucursal = sucursalBuscar.llenarDatos(self, self.id_sucursal_edit.text())
+        if (sucursal == None):
+            QMessageBox.information(self, "Informacion", "Sucursal no encontrada.")
+            self.id_sucursal_edit.setText("")
+        else:
+            QMessageBox.information(self, "Informacion", "Sucursal encontrada.")
+            self.id_sucursal_temporal = self.id_sucursal_edit.text()
+            self.direccion_sucursal_edit.setText(sucursal.direccion)
+            self.telefono_sucursal_edit.setText(sucursal.telefono)
+            self.email_sucursal_edit.setText(sucursal.email)
+            self.cedula_jefe_sucursal_edit.setText(str(sucursal.jefeCedula))
+            self.ciudad_sucursal_combobox.setCurrentIndex(sucursal.idCiudad)
+
+    def actualizar_sucursal(self):
+        sucursalActualizar = SucursalController()
+        condicion = sucursalActualizar.validacionActualizarSucursal(self, self.id_sucursal_temporal)
+        if(condicion):
+            QMessageBox.information(self, "Éxito", "Sucursal actualizada exitosamente.")
+            self.direccion_sucursal_edit.setText("")
+            self.telefono_sucursal_edit.setText("")
+            self.email_sucursal_edit.setText("")
+            self.cedula_jefe_sucursal_edit.setText("")
+            self.ciudad_sucursal_combobox.setCurrentIndex(0)
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()
@@ -829,9 +899,10 @@ class ProductoWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Buscar y Actualizar")
+        boton_actualizar = QPushButton("Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
+        boton_actualizar.clicked.connect(self.actualizar_producto)
 
         boton_eliminar = QPushButton("Eliminar")
         boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
@@ -848,11 +919,17 @@ class ProductoWindow(QWidget):
         boton_generar_reporte.setFixedSize(120, 40)
         boton_generar_reporte.clicked.connect(self.generar_reporte)
 
+        boton_buscar = QPushButton("Buscar por id")
+        boton_buscar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar.setFixedSize(120, 40)
+        boton_buscar.clicked.connect(self.mostrar_popup_buscar)
+
         layout_producto.addWidget(boton_volver, 4, 0, 1, 1)
         layout_producto.addWidget(boton_actualizar, 4, 1, 1, 1)
         layout_producto.addWidget(boton_eliminar, 4, 2, 1, 1)
         layout_producto.addWidget(boton_agregar, 4, 3, 1, 1)
         layout_producto.addWidget(boton_generar_reporte, 5, 0, 1, 1)
+        layout_producto.addWidget(boton_buscar, 5, 1, 1, 1)
 
         self.setLayout(layout_producto)
         self.parent = parent
@@ -908,6 +985,54 @@ class ProductoWindow(QWidget):
         else:
             QMessageBox.information(self, "Informacion", "Campos vacios.")
 
+    def mostrar_popup_buscar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Buscar producto")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese el id del producto a buscar:")
+        layout.addWidget(label)
+
+        self.id_producto_popup_edit = QLineEdit()
+        self.id_producto_popup_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_producto_popup_edit)
+
+        boton_buscar_confirmar = QPushButton("Buscar")
+        boton_buscar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar_confirmar.setFixedSize(120, 40)
+        boton_buscar_confirmar.clicked.connect(self.buscar_producto)
+
+        layout.addWidget(boton_buscar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec() 
+
+    def buscar_producto(self):
+        productoBuscar = ProductoController()
+        producto = productoBuscar.llenarDatos(self, self.id_producto_popup_edit.text())
+        if (producto == None):
+            QMessageBox.information(self, "Informacion", "Producto no encontrado.")
+        else:
+            QMessageBox.information(self, "Informacion", "Producto encontrado.")
+            self.id_producto_temporal = self.id_producto_popup_edit.text()
+            self.nombre_producto_edit.setText(producto.nombre)
+            self.descripcion_producto_edit.setText(producto.descripcion)
+            self.precio_producto_edit.setText(str(producto.precio))
+            self.cantidad_producto_edit.setText(str(producto.cantidad))
+
+    def actualizar_producto(self):
+        productoActualizar = ProductoController()
+        condicion = productoActualizar.validacionActualizarProducto(self, self.id_producto_temporal)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Producto actualizado exitosamente.")
+            self.nombre_producto_edit.setText("")
+            self.descripcion_producto_edit.setText("")
+            self.precio_producto_edit.setText("")
+            self.cantidad_producto_edit.setText("")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
+
     def volver_a_principal(self):
         self.close()
         self.parent.show()
@@ -954,9 +1079,10 @@ class FacturaWindow(QWidget):
         boton_volver.setFixedSize(200, 40)
         boton_volver.clicked.connect(self.volver_a_principal)
 
-        boton_actualizar = QPushButton("Buscar y Actualizar")
+        boton_actualizar = QPushButton("Actualizar")
         boton_actualizar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_actualizar.setFixedSize(120, 40)
+        boton_actualizar.clicked.connect(self.actualizar_factura)
 
         boton_eliminar = QPushButton("Eliminar")
         boton_eliminar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
@@ -973,11 +1099,17 @@ class FacturaWindow(QWidget):
         boton_generar_reporte.setFixedSize(120, 40)
         boton_generar_reporte.clicked.connect(self.generar_reporte)
 
+        boton_buscar = QPushButton("Buscar por id")
+        boton_buscar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar.setFixedSize(120, 40)
+        boton_buscar.clicked.connect(self.mostrar_popup_buscar)
+
         layout_factura.addWidget(boton_volver, 4, 0, 1, 1)
         layout_factura.addWidget(boton_actualizar, 4, 1, 1, 1)
         layout_factura.addWidget(boton_eliminar, 4, 2, 1, 1)
         layout_factura.addWidget(boton_agregar, 4, 3, 1, 1)
         layout_factura.addWidget(boton_generar_reporte, 5, 0, 1, 1)
+        layout_factura.addWidget(boton_buscar, 5, 1, 1, 1)
 
         self.setLayout(layout_factura)
         self.parent = parent
@@ -991,7 +1123,18 @@ class FacturaWindow(QWidget):
             QMessageBox.information(self, "Informacion", "Campos vacios.")
     
     def generar_reporte(self):
-        pass
+        facturaReporte = FacturaReport()
+        facturaReporte.reporte()
+
+        # Obtener la ruta del directorio de trabajo actual
+        directorio_actual = os.getcwd()
+        
+        # Concatenar la ruta del archivo PDF
+        pdf_nombre = "ReporteFactura.pdf"
+        pdf_path = os.path.join(directorio_actual + "/app/Reportes/", pdf_nombre)
+        
+        # Abrir el PDF en el navegador
+        webbrowser.open_new(pdf_path)  
     
     def mostrar_popup_eliminar(self):
         dialog = QDialog(self)
@@ -1022,6 +1165,55 @@ class FacturaWindow(QWidget):
         if (condicion):
             QMessageBox.information(self, "Éxito", "Factura eliminada exitosamente.")
             self.id_factura_eliminar_edit.setText("")
+            self.fecha_factura_calendar.setDate(QDate.currentDate())
+            self.total_factura_edit.setText("")
+            self.id_cliente_edit.setText("")
+            self.cedula_vendedor_edit.setText("")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
+
+    def mostrar_popup_buscar(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Buscar factura")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Ingrese el id de la factura a buscar:")
+        layout.addWidget(label)
+
+        self.id_factura_popup_edit = QLineEdit()
+        self.id_factura_popup_edit.setStyleSheet("background-color: white;")
+        layout.addWidget(self.id_factura_popup_edit)
+
+        boton_buscar_confirmar = QPushButton("Buscar")
+        boton_buscar_confirmar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
+        boton_buscar_confirmar.setFixedSize(120, 40)
+        boton_buscar_confirmar.clicked.connect(self.buscar_factura)
+
+        layout.addWidget(boton_buscar_confirmar)
+
+        dialog.setLayout(layout)
+        dialog.exec() 
+
+    def buscar_factura(self):
+        facturaBuscar = FacturaController()
+        factura = facturaBuscar.llenarDatos(self, self.id_factura_popup_edit.text())
+        if(factura == None):
+            QMessageBox.information(self, "Informacion", "Factura no encontrada.")
+        else:
+            QMessageBox.information(self, "Informacion", "Factura encontrada.")
+            self.id_factura_temporal = self.id_factura_popup_edit.text()
+            fecha_str = factura.fecha.strftime("%Y-%m-%d")
+            self.fecha_factura_calendar.setDate(QDate.fromString(fecha_str, "yyyy-MM-dd"))
+            self.total_factura_edit.setText(str(factura.total))
+            self.id_cliente_edit.setText(str(factura.id_cliente))
+            self.cedula_vendedor_edit.setText(str(factura.vendedorCedula))
+
+    def actualizar_factura(self):
+        facturaActualizar = FacturaController()
+        condicion = facturaActualizar.validacionActualizarFactura(self, self.id_factura_temporal)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Factura actualizada exitosamente.")
             self.fecha_factura_calendar.setDate(QDate.currentDate())
             self.total_factura_edit.setText("")
             self.id_cliente_edit.setText("")
