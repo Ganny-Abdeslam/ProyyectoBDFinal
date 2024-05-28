@@ -1,8 +1,17 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QComboBox, QCalendarWidget, QMessageBox, QDateEdit
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt, QDate
+
 from controller.usuario import UsuarioController
 from controller.sucursal import SucursalController
+from controller.cliente import ClienteController
+from controller.producto import ProductoController
+from controller.factura import FacturaController
+from controller.proveedor import ProveedorController
+from controller.materia_prima import MateriaPrimaController
+from controller.cotizacion import CotizacionController
+from controller.pedido_entrega import PedidoEntregaController
+
 
 class PrincipalScreen(QWidget):
     def __init__(self):
@@ -279,8 +288,11 @@ class UsuarioWindow(QWidget):
 
     def agregar_usuario(self):
         usuarioAgregar = UsuarioController() 
-        usuarioAgregar.validacionGuardarUsuario(self)
-        QMessageBox.information(self, "Éxito", "Usuario agregado exitosamente.")
+        condicion = usuarioAgregar.validacionGuardarUsuario(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Usuario agregado exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()
@@ -296,42 +308,36 @@ class ClienteWindow(QWidget):
 
         layout_cliente = QGridLayout()
 
-        # Campo de entrada para la cédula del cliente
-        layout_cliente.addWidget(QLabel("Cédula del Cliente:"), 0, 0)
-        self.cedula_cliente_edit = QLineEdit()
-        self.cedula_cliente_edit.setStyleSheet("background-color: white;")
-        layout_cliente.addWidget(self.cedula_cliente_edit, 0, 1)
-
         # Campo de entrada para el nombre del cliente
-        layout_cliente.addWidget(QLabel("Nombre del Cliente:"), 1, 0)
+        layout_cliente.addWidget(QLabel("Nombre del Cliente:"), 0, 0)
         self.nombre_cliente_edit = QLineEdit()
         self.nombre_cliente_edit.setStyleSheet("background-color: white;")
-        layout_cliente.addWidget(self.nombre_cliente_edit, 1, 1)
+        layout_cliente.addWidget(self.nombre_cliente_edit, 0, 1)
 
         # Campo de entrada para la dirección del cliente
-        layout_cliente.addWidget(QLabel("Dirección del Cliente:"), 2, 0)
+        layout_cliente.addWidget(QLabel("Dirección del Cliente:"), 1, 0)
         self.direccion_cliente_edit = QLineEdit()
         self.direccion_cliente_edit.setStyleSheet("background-color: white;")
-        layout_cliente.addWidget(self.direccion_cliente_edit, 2, 1)
+        layout_cliente.addWidget(self.direccion_cliente_edit, 1, 1)
 
         # Campo de entrada para el teléfono del cliente
-        layout_cliente.addWidget(QLabel("Teléfono del Cliente:"), 3, 0)
+        layout_cliente.addWidget(QLabel("Teléfono del Cliente:"), 2, 0)
         self.telefono_cliente_edit = QLineEdit()
         self.telefono_cliente_edit.setStyleSheet("background-color: white;")
-        layout_cliente.addWidget(self.telefono_cliente_edit, 3, 1)
+        layout_cliente.addWidget(self.telefono_cliente_edit, 2, 1)
 
         # Campo de entrada para el email del cliente
-        layout_cliente.addWidget(QLabel("Email del Cliente:"), 4, 0)
+        layout_cliente.addWidget(QLabel("Email del Cliente:"), 3, 0)
         self.email_cliente_edit = QLineEdit()
         self.email_cliente_edit.setStyleSheet("background-color: white;")
-        layout_cliente.addWidget(self.email_cliente_edit, 4, 1)
+        layout_cliente.addWidget(self.email_cliente_edit, 3, 1)
 
         # Campo de entrada para seleccionar la ciudad del cliente
-        layout_cliente.addWidget(QLabel("Ciudad del Cliente:"), 5, 0)
+        layout_cliente.addWidget(QLabel("Ciudad del Cliente:"), 4, 0)
         self.ciudad_cliente_combobox = QComboBox()
         self.ciudad_cliente_combobox.setStyleSheet("background-color: white;")
         self.ciudad_cliente_combobox.addItems(["Seleccione Ciudad", "Ciudad A", "Ciudad B", "Ciudad C"])  # Ejemplo de ciudades
-        layout_cliente.addWidget(self.ciudad_cliente_combobox, 5, 1)
+        layout_cliente.addWidget(self.ciudad_cliente_combobox, 4, 1)
 
         # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
@@ -350,14 +356,23 @@ class ClienteWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_cliente)
 
-        layout_cliente.addWidget(boton_volver, 6, 0, 1, 1)
-        layout_cliente.addWidget(boton_actualizar, 6, 1, 1, 1)
-        layout_cliente.addWidget(boton_eliminar, 6, 2, 1, 1)
-        layout_cliente.addWidget(boton_agregar, 6, 3, 1, 1)
+        layout_cliente.addWidget(boton_volver, 5, 0, 1, 1)
+        layout_cliente.addWidget(boton_actualizar, 5, 1, 1, 1)
+        layout_cliente.addWidget(boton_eliminar, 5, 2, 1, 1)
+        layout_cliente.addWidget(boton_agregar, 5, 3, 1, 1)
 
         self.setLayout(layout_cliente)
         self.parent = parent
+
+    def agregar_cliente(self):
+        clienteAgregar = ClienteController() 
+        condicion = clienteAgregar.validacionGuardarCliente(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Cliente agregado exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
         
     def volver_a_principal(self):
         self.close()
@@ -373,44 +388,38 @@ class SucursalWindow(QWidget):
 
         layout_sucursal = QGridLayout()
 
-        # Campo de entrada para el ID de la sucursal
-        layout_sucursal.addWidget(QLabel("ID de la Sucursal:"), 0, 0)
-        self.id_sucursal_edit = QLineEdit()
-        self.id_sucursal_edit.setStyleSheet("background-color: white;")
-        layout_sucursal.addWidget(self.id_sucursal_edit, 0, 1)
-
         # Campo de entrada para la dirección de la sucursal
-        layout_sucursal.addWidget(QLabel("Dirección de la Sucursal:"), 1, 0)
+        layout_sucursal.addWidget(QLabel("Dirección de la Sucursal:"), 0, 0)
         self.direccion_sucursal_edit = QLineEdit()
         self.direccion_sucursal_edit.setStyleSheet("background-color: white;")
-        layout_sucursal.addWidget(self.direccion_sucursal_edit, 1, 1)
+        layout_sucursal.addWidget(self.direccion_sucursal_edit, 0, 1)
 
         # Campo de entrada para el teléfono de la sucursal
-        layout_sucursal.addWidget(QLabel("Teléfono de la Sucursal:"), 2, 0)
+        layout_sucursal.addWidget(QLabel("Teléfono de la Sucursal:"), 1, 0)
         self.telefono_sucursal_edit = QLineEdit()
         self.telefono_sucursal_edit.setStyleSheet("background-color: white;")
-        layout_sucursal.addWidget(self.telefono_sucursal_edit, 2, 1)
+        layout_sucursal.addWidget(self.telefono_sucursal_edit, 1, 1)
 
         # Campo de entrada para el email de la sucursal
-        layout_sucursal.addWidget(QLabel("Email de la Sucursal:"), 3, 0)
+        layout_sucursal.addWidget(QLabel("Email de la Sucursal:"), 2, 0)
         self.email_sucursal_edit = QLineEdit()
         self.email_sucursal_edit.setStyleSheet("background-color: white;")
-        layout_sucursal.addWidget(self.email_sucursal_edit, 3, 1)
+        layout_sucursal.addWidget(self.email_sucursal_edit, 2, 1)
 
         # Campo de entrada para la cédula del jefe de la sucursal
-        layout_sucursal.addWidget(QLabel("Cédula del Jefe de la Sucursal:"), 4, 0)
+        layout_sucursal.addWidget(QLabel("Cédula del Jefe de la Sucursal:"), 3, 0)
         self.cedula_jefe_sucursal_edit = QLineEdit()
         self.cedula_jefe_sucursal_edit.setStyleSheet("background-color: white;")
-        layout_sucursal.addWidget(self.cedula_jefe_sucursal_edit, 4, 1)
+        layout_sucursal.addWidget(self.cedula_jefe_sucursal_edit, 3, 1)
 
         # Campo de entrada para seleccionar la ciudad de la sucursal
-        layout_sucursal.addWidget(QLabel("Ciudad de la Sucursal:"), 5, 0)
+        layout_sucursal.addWidget(QLabel("Ciudad de la Sucursal:"), 4, 0)
         self.ciudad_sucursal_combobox = QComboBox()
         self.ciudad_sucursal_combobox.setStyleSheet("background-color: white;")
         self.ciudad_sucursal_combobox.addItems(["Seleccione Ciudad", "Ciudad A", "Ciudad B", "Ciudad C"])  # Ejemplo de ciudades
-        layout_sucursal.addWidget(self.ciudad_sucursal_combobox, 5, 1)
+        layout_sucursal.addWidget(self.ciudad_sucursal_combobox, 4, 1)
 
-        #Botones
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_volver.setFixedSize(200, 40)
@@ -429,18 +438,21 @@ class SucursalWindow(QWidget):
         boton_agregar.setFixedSize(120, 40)
         boton_agregar.clicked.connect(self.agregar_sucursal)
 
-        layout_sucursal.addWidget(boton_volver, 6, 0, 1, 1)
-        layout_sucursal.addWidget(boton_actualizar, 6, 1, 1, 1)
-        layout_sucursal.addWidget(boton_eliminar, 6, 2, 1, 1)
-        layout_sucursal.addWidget(boton_agregar, 6, 3, 1, 1)
+        layout_sucursal.addWidget(boton_volver, 5, 0, 1, 1)
+        layout_sucursal.addWidget(boton_actualizar, 5, 1, 1, 1)
+        layout_sucursal.addWidget(boton_eliminar, 5, 2, 1, 1)
+        layout_sucursal.addWidget(boton_agregar, 5, 3, 1, 1)
 
         self.setLayout(layout_sucursal)
         self.parent = parent
 
     def agregar_sucursal(self):
         sucursalAgregar = SucursalController() 
-        sucursalAgregar.validacionGuardarSucursal(self)
-
+        condicion = sucursalAgregar.validacionGuardarSucursal(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Sucursal agregada exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()
@@ -456,35 +468,29 @@ class ProductoWindow(QWidget):
 
         layout_producto = QGridLayout()
 
-        # Campo de entrada para el ID del producto
-        layout_producto.addWidget(QLabel("ID del Producto:"), 0, 0)
-        self.id_producto_edit = QLineEdit()
-        self.id_producto_edit.setStyleSheet("background-color: white;")
-        layout_producto.addWidget(self.id_producto_edit, 0, 1)
-
         # Campo de entrada para el nombre del producto
-        layout_producto.addWidget(QLabel("Nombre del Producto:"), 1, 0)
+        layout_producto.addWidget(QLabel("Nombre del Producto:"), 0, 0)
         self.nombre_producto_edit = QLineEdit()
         self.nombre_producto_edit.setStyleSheet("background-color: white;")
-        layout_producto.addWidget(self.nombre_producto_edit, 1, 1)
+        layout_producto.addWidget(self.nombre_producto_edit, 0, 1)
 
         # Campo de entrada para la descripción del producto
-        layout_producto.addWidget(QLabel("Descripción del Producto:"), 2, 0)
+        layout_producto.addWidget(QLabel("Descripción del Producto:"), 1, 0)
         self.descripcion_producto_edit = QLineEdit()
         self.descripcion_producto_edit.setStyleSheet("background-color: white;")
-        layout_producto.addWidget(self.descripcion_producto_edit, 2, 1)
+        layout_producto.addWidget(self.descripcion_producto_edit, 1, 1)
 
         # Campo de entrada para el precio del producto
-        layout_producto.addWidget(QLabel("Precio del Producto:"), 3, 0)
+        layout_producto.addWidget(QLabel("Precio del Producto:"), 2, 0)
         self.precio_producto_edit = QLineEdit()
         self.precio_producto_edit.setStyleSheet("background-color: white;")
-        layout_producto.addWidget(self.precio_producto_edit, 3, 1)
+        layout_producto.addWidget(self.precio_producto_edit, 2, 1)
 
         # Campo de entrada para la cantidad del producto
-        layout_producto.addWidget(QLabel("Cantidad del Producto:"), 4, 0)
+        layout_producto.addWidget(QLabel("Cantidad del Producto:"), 3, 0)
         self.cantidad_producto_edit = QLineEdit()
         self.cantidad_producto_edit.setStyleSheet("background-color: white;")
-        layout_producto.addWidget(self.cantidad_producto_edit, 4, 1)
+        layout_producto.addWidget(self.cantidad_producto_edit, 3, 1)
 
         # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
@@ -503,14 +509,23 @@ class ProductoWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_producto)
 
-        layout_producto.addWidget(boton_volver, 6, 0, 1, 1)
-        layout_producto.addWidget(boton_actualizar, 6, 1, 1, 1)
-        layout_producto.addWidget(boton_eliminar, 6, 2, 1, 1)
-        layout_producto.addWidget(boton_agregar, 6, 3, 1, 1)
+        layout_producto.addWidget(boton_volver, 4, 0, 1, 1)
+        layout_producto.addWidget(boton_actualizar, 4, 1, 1, 1)
+        layout_producto.addWidget(boton_eliminar, 4, 2, 1, 1)
+        layout_producto.addWidget(boton_agregar, 4, 3, 1, 1)
 
         self.setLayout(layout_producto)
         self.parent = parent
+
+    def agregar_producto(self):
+        productoAgregar = ProductoController() 
+        condicion = productoAgregar.validacionGuardarProducto(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Producto agregado exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()
@@ -526,35 +541,30 @@ class FacturaWindow(QWidget):
 
         layout_factura = QGridLayout()
 
-        # Campo de entrada para el ID de la factura
-        layout_factura.addWidget(QLabel("ID de la Factura:"), 0, 0)
-        self.id_factura_edit = QLineEdit()
-        self.id_factura_edit.setStyleSheet("background-color: white;")
-        layout_factura.addWidget(self.id_factura_edit, 0, 1)
-
         # Campo de entrada para la fecha de la factura
-        layout_factura.addWidget(QLabel("Fecha de la Factura:"), 1, 0)
-        self.fecha_factura_calendar = QCalendarWidget()
+        layout_factura.addWidget(QLabel("Fecha de la Factura:"), 0, 0)
+        self.fecha_factura_calendar = QDateEdit()
+        self.fecha_factura_calendar.setCalendarPopup(True)
         self.fecha_factura_calendar.setStyleSheet("background-color: white; color:black;")
-        layout_factura.addWidget(self.fecha_factura_calendar, 1, 1)
+        layout_factura.addWidget(self.fecha_factura_calendar, 0, 1)
 
         # Campo de entrada para el total de la factura
-        layout_factura.addWidget(QLabel("Total de la Factura:"), 2, 0)
+        layout_factura.addWidget(QLabel("Total de la Factura:"), 1, 0)
         self.total_factura_edit = QLineEdit()
         self.total_factura_edit.setStyleSheet("background-color: white;")
-        layout_factura.addWidget(self.total_factura_edit, 2, 1)
+        layout_factura.addWidget(self.total_factura_edit, 1, 1)
 
         # Campo de entrada para el ID del cliente
-        layout_factura.addWidget(QLabel("ID del Cliente:"), 3, 0)
+        layout_factura.addWidget(QLabel("ID del Cliente:"), 2, 0)
         self.id_cliente_edit = QLineEdit()
         self.id_cliente_edit.setStyleSheet("background-color: white;")
-        layout_factura.addWidget(self.id_cliente_edit, 3, 1)
+        layout_factura.addWidget(self.id_cliente_edit, 2, 1)
 
         # Campo de entrada para la cédula del vendedor
-        layout_factura.addWidget(QLabel("Cédula del Vendedor:"), 4, 0)
+        layout_factura.addWidget(QLabel("Cédula del Vendedor:"), 3, 0)
         self.cedula_vendedor_edit = QLineEdit()
         self.cedula_vendedor_edit.setStyleSheet("background-color: white;")
-        layout_factura.addWidget(self.cedula_vendedor_edit, 4, 1)
+        layout_factura.addWidget(self.cedula_vendedor_edit, 3, 1)
 
         # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
@@ -573,14 +583,23 @@ class FacturaWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_factura)
 
-        layout_factura.addWidget(boton_volver, 6, 0, 1, 1)
-        layout_factura.addWidget(boton_actualizar, 6, 1, 1, 1)
-        layout_factura.addWidget(boton_eliminar, 6, 2, 1, 1)
-        layout_factura.addWidget(boton_agregar, 6, 3, 1, 1)
+        layout_factura.addWidget(boton_volver, 4, 0, 1, 1)
+        layout_factura.addWidget(boton_actualizar, 4, 1, 1, 1)
+        layout_factura.addWidget(boton_eliminar, 4, 2, 1, 1)
+        layout_factura.addWidget(boton_agregar, 4, 3, 1, 1)
 
         self.setLayout(layout_factura)
         self.parent = parent
+
+    def agregar_factura(self):
+        facturaAgregar = FacturaController() 
+        condicion = facturaAgregar.validacionGuardarFactura(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Factura agregado exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()
@@ -596,37 +615,31 @@ class ProveedorWindow(QWidget):
 
         layout_proveedor = QGridLayout()
 
-        # Campo de entrada para el ID del proveedor
-        layout_proveedor.addWidget(QLabel("ID del Proveedor:"), 0, 0)
-        self.id_proveedor_edit = QLineEdit()
-        self.id_proveedor_edit.setStyleSheet("background-color: white;")
-        layout_proveedor.addWidget(self.id_proveedor_edit, 0, 1)
-
         # Campo de entrada para el nombre del proveedor
-        layout_proveedor.addWidget(QLabel("Nombre del Proveedor:"), 1, 0)
+        layout_proveedor.addWidget(QLabel("Nombre del Proveedor:"), 0, 0)
         self.nombre_proveedor_edit = QLineEdit()
         self.nombre_proveedor_edit.setStyleSheet("background-color: white;")
-        layout_proveedor.addWidget(self.nombre_proveedor_edit, 1, 1)
+        layout_proveedor.addWidget(self.nombre_proveedor_edit, 0, 1)
 
         # Campo de entrada para la dirección del proveedor
-        layout_proveedor.addWidget(QLabel("Dirección del Proveedor:"), 2, 0)
+        layout_proveedor.addWidget(QLabel("Dirección del Proveedor:"), 1, 0)
         self.direccion_proveedor_edit = QLineEdit()
         self.direccion_proveedor_edit.setStyleSheet("background-color: white;")
-        layout_proveedor.addWidget(self.direccion_proveedor_edit, 2, 1)
+        layout_proveedor.addWidget(self.direccion_proveedor_edit, 1, 1)
 
         # Campo de entrada para el email del proveedor
-        layout_proveedor.addWidget(QLabel("Email del Proveedor:"), 3, 0)
+        layout_proveedor.addWidget(QLabel("Email del Proveedor:"), 2, 0)
         self.email_proveedor_edit = QLineEdit()
         self.email_proveedor_edit.setStyleSheet("background-color: white;")
-        layout_proveedor.addWidget(self.email_proveedor_edit, 3, 1)
+        layout_proveedor.addWidget(self.email_proveedor_edit, 2, 1)
 
         # Campo de entrada para el teléfono del proveedor
-        layout_proveedor.addWidget(QLabel("Teléfono del Proveedor:"), 4, 0)
+        layout_proveedor.addWidget(QLabel("Teléfono del Proveedor:"), 3, 0)
         self.telefono_proveedor_edit = QLineEdit()
         self.telefono_proveedor_edit.setStyleSheet("background-color: white;")
-        layout_proveedor.addWidget(self.telefono_proveedor_edit, 4, 1)
+        layout_proveedor.addWidget(self.telefono_proveedor_edit, 3, 1)
 
-        #Botones
+        # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
         boton_volver.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_volver.setFixedSize(200, 40)
@@ -643,14 +656,23 @@ class ProveedorWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_proveedor)
 
-        layout_proveedor.addWidget(boton_volver, 6, 0, 1, 1)
-        layout_proveedor.addWidget(boton_actualizar, 6, 1, 1, 1)
-        layout_proveedor.addWidget(boton_eliminar, 6, 2, 1, 1)
-        layout_proveedor.addWidget(boton_agregar, 6, 3, 1, 1)
+        layout_proveedor.addWidget(boton_volver, 4, 0, 1, 1)
+        layout_proveedor.addWidget(boton_actualizar, 4, 1, 1, 1)
+        layout_proveedor.addWidget(boton_eliminar, 4, 2, 1, 1)
+        layout_proveedor.addWidget(boton_agregar, 4, 3, 1, 1)
 
         self.setLayout(layout_proveedor)
         self.parent = parent
+
+    def agregar_proveedor(self):
+        proveedorAgregar = ProveedorController() 
+        condicion = proveedorAgregar.validacionGuardarProveedor(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Proveedor agregado exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()
@@ -666,29 +688,23 @@ class MaterialWindow(QWidget):
 
         layout_material = QGridLayout()
 
-        # Campo de entrada para el ID del material
-        layout_material.addWidget(QLabel("ID del Material:"), 0, 0)
-        self.id_material_edit = QLineEdit()
-        self.id_material_edit.setStyleSheet("background-color: white;")
-        layout_material.addWidget(self.id_material_edit, 0, 1)
-
         # Campo de entrada para el nombre del material
-        layout_material.addWidget(QLabel("Nombre del Material:"), 1, 0)
+        layout_material.addWidget(QLabel("Nombre del Material:"), 0, 0)
         self.nombre_material_edit = QLineEdit()
         self.nombre_material_edit.setStyleSheet("background-color: white;")
-        layout_material.addWidget(self.nombre_material_edit, 1, 1)
+        layout_material.addWidget(self.nombre_material_edit, 0, 1)
 
         # Campo de entrada para la descripción del material
-        layout_material.addWidget(QLabel("Descripción del Material:"), 2, 0)
+        layout_material.addWidget(QLabel("Descripción del Material:"), 1, 0)
         self.descripcion_material_edit = QLineEdit()
         self.descripcion_material_edit.setStyleSheet("background-color: white;")
-        layout_material.addWidget(self.descripcion_material_edit, 2, 1)
+        layout_material.addWidget(self.descripcion_material_edit, 1, 1)
 
         # Campo de entrada para la cantidad del material
-        layout_material.addWidget(QLabel("Cantidad del Material:"), 3, 0)
+        layout_material.addWidget(QLabel("Cantidad del Material:"), 2, 0)
         self.cantidad_material_edit = QLineEdit()
         self.cantidad_material_edit.setStyleSheet("background-color: white;")
-        layout_material.addWidget(self.cantidad_material_edit, 3, 1)
+        layout_material.addWidget(self.cantidad_material_edit, 2, 1)
 
         # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
@@ -707,15 +723,23 @@ class MaterialWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_material)
 
-        layout_material.addWidget(boton_volver, 6, 0, 1, 1)
-        layout_material.addWidget(boton_actualizar, 6, 1, 1, 1)
-        layout_material.addWidget(boton_eliminar, 6, 2, 1, 1)
-        layout_material.addWidget(boton_agregar, 6, 3, 1, 1)
+        layout_material.addWidget(boton_volver, 3, 0, 1, 1)
+        layout_material.addWidget(boton_actualizar, 3, 1, 1, 1)
+        layout_material.addWidget(boton_eliminar, 3, 2, 1, 1)
+        layout_material.addWidget(boton_agregar, 3, 3, 1, 1)
 
         self.setLayout(layout_material)
         self.parent = parent
 
+    def agregar_material(self):
+        materialAgregar = MateriaPrimaController() 
+        condicion = materialAgregar.validacionGuardarMateriaPrima(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Materia prima agregada exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()
@@ -731,29 +755,24 @@ class CotizacionWindow(QWidget):
 
         layout_cotizacion = QGridLayout()
 
-        # Campo de entrada para el ID de la cotización
-        layout_cotizacion.addWidget(QLabel("ID de la Cotización:"), 0, 0)
-        self.id_cotizacion_edit = QLineEdit()
-        self.id_cotizacion_edit.setStyleSheet("background-color: white;")
-        layout_cotizacion.addWidget(self.id_cotizacion_edit, 0, 1)
-
         # Campo de entrada para la fecha de la cotización
-        layout_cotizacion.addWidget(QLabel("Fecha de la Cotización:"), 1, 0)
-        self.fecha_cotizacion_calendar = QCalendarWidget()
+        layout_cotizacion.addWidget(QLabel("Fecha de la Cotización:"), 0, 0)
+        self.fecha_cotizacion_calendar = QDateEdit()
+        self.fecha_cotizacion_calendar.setCalendarPopup(True)
         self.fecha_cotizacion_calendar.setStyleSheet("background-color: white; color:black;")
-        layout_cotizacion.addWidget(self.fecha_cotizacion_calendar, 1, 1)
+        layout_cotizacion.addWidget(self.fecha_cotizacion_calendar, 0, 1)
 
         # Campo de entrada para el total de la cotización
-        layout_cotizacion.addWidget(QLabel("Total de la Cotización:"), 2, 0)
+        layout_cotizacion.addWidget(QLabel("Total de la Cotización:"), 1, 0)
         self.total_cotizacion_edit = QLineEdit()
         self.total_cotizacion_edit.setStyleSheet("background-color: white;")
-        layout_cotizacion.addWidget(self.total_cotizacion_edit, 2, 1)
+        layout_cotizacion.addWidget(self.total_cotizacion_edit, 1, 1)
 
         # Campo de entrada para la cédula del vendedor
-        layout_cotizacion.addWidget(QLabel("Cédula del Vendedor:"), 3, 0)
+        layout_cotizacion.addWidget(QLabel("Cédula del Vendedor:"), 2, 0)
         self.cedula_vendedor_edit = QLineEdit()
         self.cedula_vendedor_edit.setStyleSheet("background-color: white;")
-        layout_cotizacion.addWidget(self.cedula_vendedor_edit, 3, 1)
+        layout_cotizacion.addWidget(self.cedula_vendedor_edit, 2, 1)
 
         # Botones
         boton_volver = QPushButton("Volver a la pantalla principal")
@@ -772,14 +791,23 @@ class CotizacionWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_cotizacion)
 
-        layout_cotizacion.addWidget(boton_volver, 6, 0, 1, 1)
-        layout_cotizacion.addWidget(boton_actualizar, 6, 1, 1, 1)
-        layout_cotizacion.addWidget(boton_eliminar, 6, 2, 1, 1)
-        layout_cotizacion.addWidget(boton_agregar, 6, 3, 1, 1)
+        layout_cotizacion.addWidget(boton_volver, 3, 0, 1, 1)
+        layout_cotizacion.addWidget(boton_actualizar, 3, 1, 1, 1)
+        layout_cotizacion.addWidget(boton_eliminar, 3, 2, 1, 1)
+        layout_cotizacion.addWidget(boton_agregar, 3, 3, 1, 1)
 
         self.setLayout(layout_cotizacion)
         self.parent = parent
+
+    def agregar_cotizacion(self):
+        cotizacionAgregar = CotizacionController()
+        condicion = cotizacionAgregar.validacionGuardarCotizacion(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Cotizacion agregada exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()
@@ -809,7 +837,8 @@ class EntregaPedidoWindow(QWidget):
 
         # Campo de entrada para la fecha de entrega
         layout_entrega_pedido.addWidget(QLabel("Fecha de Entrega:"), 2, 0)
-        self.fecha_entrega_calendar = QCalendarWidget()
+        self.fecha_entrega_calendar = QDateEdit()
+        self.fecha_entrega_calendar.setCalendarPopup(True)
         self.fecha_entrega_calendar.setStyleSheet("background-color: white; color:black;")
         layout_entrega_pedido.addWidget(self.fecha_entrega_calendar, 2, 1)
 
@@ -842,6 +871,7 @@ class EntregaPedidoWindow(QWidget):
         boton_agregar = QPushButton("Agregar")
         boton_agregar.setStyleSheet("background-color: lightgreen; color: black; border: 2px solid black; border-radius: 10px;")
         boton_agregar.setFixedSize(120, 40)
+        boton_agregar.clicked.connect(self.agregar_entrega_pedido)
 
         layout_entrega_pedido.addWidget(boton_volver, 6, 0, 1, 1)
         layout_entrega_pedido.addWidget(boton_actualizar, 6, 1, 1, 1)
@@ -850,6 +880,14 @@ class EntregaPedidoWindow(QWidget):
 
         self.setLayout(layout_entrega_pedido)
         self.parent = parent
+    
+    def agregar_entrega_pedido(self):
+        entregaPedidoAgregar = PedidoEntregaController()
+        condicion = entregaPedidoAgregar.validacionGuardarPedidoEntrega(self)
+        if (condicion):
+            QMessageBox.information(self, "Éxito", "Entrega de Pedido agregada exitosamente.")
+        else:
+            QMessageBox.information(self, "Informacion", "Campos vacios.")
 
     def volver_a_principal(self):
         self.close()
