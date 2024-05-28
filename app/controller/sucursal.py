@@ -16,3 +16,5 @@ class SucursalController:
             self.inicio(SucursalWindow.direccion_sucursal_edit.text(), SucursalWindow.telefono_sucursal_edit.text(), SucursalWindow.email_sucursal_edit.text(), SucursalWindow.cedula_jefe_sucursal_edit.text(), "1")
             print("Campos llenos")
             self.sucursal.agregarSucursal()
+            return True
+            
